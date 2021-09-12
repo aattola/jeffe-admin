@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "wesbos/typescript"
+    //    "react-app"
+  ],
+  "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "jsx-a11y": "off",
+    "no-undef": "off",
+    "@typescript-eslint/ban-types": "off",
+    "array-callback-return": "off",
+    "consistent-return": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "object-curly-spacing": ["error", "always"],
+    "linebreak-style": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "node/no-unsupported-features/es-syntax": 0,
+    "no-console": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "class-methods-use-this": "off"
+  }
+}

@@ -1,0 +1,189 @@
+/*! CSS Used from: https://fivem.net/index.f28363b4610a50ec6a17.css */
+
+html {
+    --color-bg: #161923;
+    --color-bg-a25: rgba(22,26,35,0.25);
+    --color-bg-a50: rgba(22,26,35,0.5);
+    --color-bg-a80: rgba(22,26,35,0.8);
+    --color-text: ivory;
+    --color-text-a10: hsla(60,93%,94%,0.1);
+    --color-text-a20: hsla(60,93%,94%,0.2);
+    --color-text-a50: hsla(60,93%,94%,0.5);
+    --color-text-a75: hsla(60,93%,94%,0.75);
+    --color-shadow: rgba(54,20,0,0.2);
+    --color-accent-1: #f40552;
+    --color-accent-1-a75: rgba(244,5,82,0.75);
+    --color-accent-1-a50: rgba(244,5,82,0.5);
+    --color-accent-1-a10: rgba(244,5,82,0.1);
+    --color-accent-1-s90: #e7064f;
+    --color-accent-2: #007892;
+    --color-accent-2-a10: rgba(0,120,146,0.1);
+    --f1: "Rubik";
+    --f2: "Montserrat";
+    --fs08: 0.8rem;
+    --fs1: 1rem;
+    --fs2: 1.2rem;
+    --fs3: 1.5rem;
+    --fs4: 1.75rem;
+    --fs5: 2rem;
+    --q: 1rem;
+    --qh: .5rem;
+    --q2: calc(var(--q)*2);
+    --q3: calc(var(--q)*3);
+    --q4: calc(var(--q)*4);
+    --q5: calc(var(--q)*5);
+    --q6: calc(var(--q)*6);
+    --q7: calc(var(--q)*7);
+    --q8: calc(var(--q)*8);
+    --q9: calc(var(--q)*9);
+    --q10: calc(var(--q)*10);
+    --q11: calc(var(--q)*11);
+    --q12: calc(var(--q)*12);
+    --q13: calc(var(--q)*13);
+    --padding-sides: var(--q4);
+    --padding-sides-half: calc(var(--padding-sides)/2);
+    --blur-radius: 10px;
+    color: var(--color-text);
+    font-family: var(--f1);
+}
+
+.btn a {
+    color: currentColor;
+    -webkit-transition: all .15s ease;
+    -o-transition: all .15s ease;
+    transition: all .15s ease;
+}
+
+.btn a:hover {
+    color: var(--color-text);
+    background-color: var(--color-accent-1);
+    -webkit-box-shadow: 0 0 0 4px var(--color-accent-1);
+    box-shadow: 0 0 0 4px var(--color-accent-1);
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.btn {
+    display: inline-block;
+    padding: var(--qh) calc(var(--qh)/.68);
+    color: var(--color-text);
+    background-color: var(--color-bg-a25);
+    /*background-image: url(https://fivem.net/e6bab6e0eb003ff2ee71bc8e4330cff1.png);*/
+    background-size: 50%;
+    font-size: var(--fs08);
+    font-weight: 300;
+    font-family: var(--f1);
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    border: 2px solid var(--color-text-a75);
+    -webkit-backdrop-filter: blur(var(--blur-radius));
+    backdrop-filter: blur(var(--blur-radius));
+    cursor: pointer;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index: 0;
+    -webkit-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+}
+
+.btn,
+.btn:hover {
+    -webkit-box-shadow: 0 0 4px 0 var(--color-shadow);
+    box-shadow: 0 0 4px 0 var(--color-shadow);
+}
+
+.btn:hover {
+    color: var(--color-bg);
+    background: var(--color-text);
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.selected {
+    color: var(--color-bg) !important;
+    background: var(--color-text) !important;
+}
+
+.red {
+
+    cursor: pointer;
+    color: var(--color-text);
+    background-color: var(--color-accent-1-a10);
+    /*background-image: url(5acaf3ca7e527ae76bc22212bbe7532f.png);*/
+    /*-webkit-animation: bganim 40s linear 0s infinite;*/
+    /*animation: bganim 40s linear 0s infinite;*/
+    border: 2px solid #f40552 !important;
+    -webkit-box-shadow: 0 0 10px 0 var(--color-accent-1-a50) !important;
+    box-shadow: 0 0 10px 0 var(--color-accent-1-a50);
+    -webkit-backdrop-filter: blur(var(--blur-radius));
+    backdrop-filter: blur(var(--blur-radius));
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: background .2s ease;
+    -o-transition: background .2s ease;
+    transition: background .2s ease;
+
+    background-size: 50%;
+    font-size: var(--fs08);
+    font-weight: 300;
+    font-family: var(--f1);
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    padding: var(--qh) calc(var(--qh)/.68);
+}
+
+
+.red:hover{
+    background-color:var(--color-accent-1-s90);
+    -webkit-transition:none;
+    -o-transition:none;
+    transition:none;
+}
+
+.link{
+    color:currentColor;
+    -webkit-transition:all .15s ease;
+    -o-transition:all .15s ease;
+    transition:all .15s ease;
+}
+.link:hover{
+    color:var(--color-text);
+    background-color:var(--color-accent-1);
+    -webkit-box-shadow:0 0 0 4px var(--color-accent-1);
+    box-shadow:0 0 0 4px var(--color-accent-1);
+    -webkit-transition:none;
+    -o-transition:none;
+    transition:none;
+}
+.link .links {
+    display:block;
+    padding:var(--qh) var(--q);
+    /*margin-left:var(--q);*/
+    background-color:var(--color-text-a10);
+    text-decoration:none;
+}
+.links .link:hover{
+    background-color:var(--color-accent-1);
+    -webkit-box-shadow:none;
+    box-shadow:none;
+}
+
+.rcp-body {
+    width: -webkit-fill-available !important;
+}

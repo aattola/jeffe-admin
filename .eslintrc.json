@@ -1,0 +1,42 @@
+//{
+//  "extends": [
+//    "@abhijithvijayan/eslint-config/typescript",
+//    "@abhijithvijayan/eslint-config/node"
+//  ],
+//  "parserOptions": {
+//    "project": "./client/tsconfig.json"
+//  },
+//  "rules": {
+//    "jsx-a11y": "off",
+//    "react/jsx-props-no-spreading": "off",
+//    "no-undef": "off",
+//    "@typescript-eslint/ban-types": "off",
+//    "array-callback-return": "off",
+//    "consistent-return": "off",
+//    "@typescript-eslint/no-explicit-any": "warn",
+//    "object-curly-spacing": ["error", "always"],
+//    "linebreak-style": 0,
+//    "@typescript-eslint/explicit-function-return-type": 0,
+//    "node/no-unsupported-features/es-syntax": 0,
+//    "no-console": "off",
+//    "@typescript-eslint/ban-ts-comment": "off",
+//    "class-methods-use-this": "off",
+//    "prettier/prettier": [
+//      "error",
+//      {
+//        "bracketSpacing": true,
+//        "singleQuote": true,
+//        "endOfLine": "crlf",
+//        "class-methods-use-this": false
+//      }
+//    ]
+//  }
+//}
+
+{
+
+  "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "no-unused-vars": "off"
+  }
+}
