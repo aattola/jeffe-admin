@@ -14,6 +14,11 @@ const openState = atom({
   default: false, // default value (aka initial value)
 });
 
+const debug = atom({
+  key: 'debug', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
+
 const errorState = atom({
   key: 'errorState', // unique ID (with respect to other atoms/selectors)
   default: false, // default value (aka initial value)
@@ -45,8 +50,9 @@ const shouldMenuBeOpen = selector({
     return { open: false };
   },
   set: ({ get, set }, newValue) => {
-    set(secondMenu, { open: newValue, components: [] });
-    set(errorState, newValue);
+    const value = newValue as boolean;
+    set(secondMenu, { open: value, components: [] });
+    set(errorState, value);
   },
 });
 
@@ -56,4 +62,5 @@ export {
   secondMenu,
   shouldMenuBeOpen,
   notificationState,
+  debug,
 };

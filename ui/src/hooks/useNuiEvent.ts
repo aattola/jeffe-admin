@@ -1,5 +1,4 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
-import { noop } from '../utils/misc';
 
 interface NuiMessageData<T = unknown> {
   action: string;
@@ -24,7 +23,8 @@ export const useNuiEvent = <T = any>(
   action: string,
   handler: (data: T) => void
 ) => {
-  const savedHandler: MutableRefObject<NuiHandlerSignature<T>> = useRef(noop);
+  // @ts-ignore
+  const savedHandler: MutableRefObject<NuiHandlerSignature<T>> = useRef(null);
 
   // When handler value changes set mutable ref to handler val
   useEffect(() => {

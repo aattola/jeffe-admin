@@ -52,11 +52,11 @@ function NotificationCard() {
       <div style={{ height: 'auto' }}>
         <SettingsContainer>
           <ErrorBoundary>
-            {notif.map((Notification, i) => (
+            {notif.map((Notification: any, i: number) => (
               <div key={i}>
                 <h3 style={{ margin: '5px 0px' }}>{Notification.title}</h3>
                 <p>{Notification.desc}</p>
-                {Notification.components.map((Component, i2) => (
+                {Notification.components.map((Component: any, i2: number) => (
                   <Component key={i2} />
                 ))}
               </div>

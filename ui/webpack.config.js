@@ -9,8 +9,13 @@ const config = {
     new HtmlWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: false,
+      typescript: {
+        enabled: true,
+        configFile: path.resolve(__dirname, 'tsconfig.json')
+      },
       eslint: {
         files: "./src/**/*",
+        enabled: false
       },
     }),
   ],
@@ -42,6 +47,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
+    clean: true
   },
   devServer: {
     static: path.join(__dirname, "dist"),

@@ -22,7 +22,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 // Inspired by the former Facebook spinners.
-function FacebookCircularProgress(props) {
+function FacebookCircularProgress(props: any) {
   return (
     <Box sx={{ position: 'relative' }}>
       <CircularProgress

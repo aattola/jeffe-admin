@@ -51,10 +51,15 @@ function Kissa() {
   return (
     <>
       <h1>{kisu}</h1>
-      <button onClick={() => orava('orava')}>orava</button>
+      <button type="button" onClick={() => orava('orava')}>
+        orava
+      </button>
 
       <button
-        onClick={() => setState({ open: true, components: [Weather] })}
+        onClick={() => {
+          // @ts-ignore
+          setState({ open: true, components: [Weather] });
+        }}
         type="button"
         className="btn block inverted"
       >
@@ -117,9 +122,10 @@ function CardWrapper() {
                 Fivem
               </button>
               <button
-                onClick={() =>
-                  setState({ open: true, components: [Weather, Kissa] })
-                }
+                onClick={() => {
+                  // @ts-ignore
+                  setState({ open: true, components: [Weather, Kissa] });
+                }}
                 type="button"
                 className="btn block inverted"
               >

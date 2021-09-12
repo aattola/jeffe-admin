@@ -44,7 +44,9 @@ function Weather() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = useRecoilState(errorState);
 
-  const handleChange = (event) => {
+  const handleChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setWeather(event.target.value);
   };
 

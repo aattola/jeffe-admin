@@ -2,23 +2,28 @@ import React from 'react';
 import Button from '@mui/material/Button';
 
 class ErrorBoundary extends React.Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: any) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: any) {
     // You can also log the error to an error reporting service
     console.log(error, 'Lirahti');
   }
 
   render() {
-    if (this.state.hasError) {
+    // @ts-ignore
+    const { hasError } = this.state;
+    // eslint-disable-next-line react/prop-types
+    const { children } = this.props;
+
+    if (hasError) {
       // You can render any custom fallback UI
       return (
         <>
@@ -31,7 +36,7 @@ class ErrorBoundary extends React.Component {
       );
     }
 
-    return this.props.children;
+    return children;
   }
 }
 

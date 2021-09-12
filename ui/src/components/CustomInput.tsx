@@ -72,11 +72,11 @@ const CustomAutocomplete = styled(Autocomplete)(({ theme }) => ({
   },
 }));
 
-function CustomTextInput(props) {
+function CustomTextInput(props: any) {
   return <CustomTextInput2 {...props} />;
 }
 
-function TextInput(props) {
+function TextInput(props: any) {
   return <BootstrapInput {...props} />;
 }
 

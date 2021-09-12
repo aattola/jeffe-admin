@@ -22,14 +22,16 @@ const ComponentWrapper = styled.div`
   margin: 15px 0px;
 `;
 
-let varit: CarPayload['varit'];
+type varitType = CarPayload['varit'];
+
+const varit: varitType | [] = [];
 
 function Car() {
   const initLoadData = {
     type: '',
   };
   const [loading, setLoading] = React.useState(initLoadData);
-  const [car, setCar] = React.useState('');
+  const [car, setCar] = React.useState<string>('');
   const [checked, setChecked] = React.useState(false);
   const [notif, setNotif] = useRecoilState(notificationState);
 
@@ -50,7 +52,7 @@ function Car() {
     setChecked(e.target.checked);
   }
 
-  const handleSave = async (data: CarPayload) => {
+  const handleSave = async (data: any | CarPayload) => {
     if (!data) return console.log('unohit handleSaven datan');
     if (data.type === 'spawn') {
       // eslint-disable-next-line no-param-reassign
@@ -59,36 +61,43 @@ function Car() {
     setLoading(data);
     const retData = await fetchNui('car', data).catch((err) => {
       setLoading(initLoadData);
-      setNotif([
-        {
-          title: 'Errori',
-          desc: 'Virhe tapahtu autossa',
-          components: [],
-        },
-      ]);
+      // setNotif([
+      //   {
+      //     title: 'Errori',
+      //     desc: 'Virhe tapahtu autossa',
+      //     components: [],
+      //   },
+      // ]);
+      console.log('ERRORI', err);
     });
     console.log(retData, 'retDataa');
     if (!retData || !retData.ok) {
-      setNotif([
-        {
-          title: 'Errori',
-          desc: retData
-            ? retData.error
-            : 'Varmaan devvaat selaimesta kun ei vastausta tule',
-          components: [],
-        },
-      ]);
+      // setNotif([
+      //   {
+      //     title: 'Errori',
+      //     desc: retData
+      //       ? retData.error
+      //       : 'Varmaan devvaat selaimesta kun ei vastausta tule',
+      //     components: [],
+      //   },
+      // ]);
+      console.log('ERRORI', retData);
     }
     setLoading(initLoadData);
   };
 
-  const handleColor = (data, pos) => {
-    if (pos === 'Primary') {
-      varit[0] = data;
-      return;
-    }
+  const handleColor = (data: any, pos: 'Primary' | 'Secondary') => {
+    if (data) {
+      if (pos === 'Primary') {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        // @ts-ignore
+        varit[0] = data;
+        return;
+      }
 
-    varit[1] = data;
+      // @ts-ignore
+      varit[1] = data;
+    }
   };
 
   return (
