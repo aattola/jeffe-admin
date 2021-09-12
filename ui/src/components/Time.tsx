@@ -39,7 +39,7 @@ function Time() {
   const states = ['Morning', 'Day', 'Evening', 'Night'];
   const [error, setError] = useRecoilState(errorState);
 
-  const handleClick = (name) => {
+  const handleClick = (name: React.SetStateAction<string>) => {
     if (name === selected) return setSelected('');
     let time = value;
     if (name === 'Morning') {
@@ -66,7 +66,7 @@ function Time() {
     const retData = await fetchNui('setTime', {
       time: value,
     }).catch((err) => {
-      setError('Weather load failed');
+      setError(true);
     });
     console.log(retData, 'retDataa');
     setLoading(false);
@@ -119,6 +119,7 @@ function Time() {
             value={value}
             onChange={(newValue) => {
               setSelected('');
+              if (newValue == null) return;
               setValue(newValue);
             }}
             minDate={new Date('2018-01-01')}
@@ -131,7 +132,13 @@ function Time() {
             rightArrowButtonText="Open next month"
             renderInput={({ inputRef, inputProps, InputProps }) => (
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <TextField size="small" ref={inputRef} {...inputProps} />
+                {/* @ts-ignore */}
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  ref={inputRef}
+                  {...inputProps}
+                />
                 {InputProps?.endAdornment}
               </Box>
             )}

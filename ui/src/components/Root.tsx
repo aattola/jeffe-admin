@@ -1,24 +1,22 @@
 /* eslint-disable react/prop-types */
-import 'regenerator-runtime/runtime';
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import Button from '@mui/material/Button';
+// import 'regenerator-runtime/runtime';
+import React, { useEffect, useState } from 'react';
+import './Styles/App.css';
+import './Styles/ColorPicker.css';
 import styled from 'styled-components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Card } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useNuiEvent } from '../hooks/useNuiEvent.ts';
-import { debugData } from '../utils/debugData.ts';
-import { fetchNui } from '../utils/fetchNui.ts';
-import { useExitListener } from '../hooks/useExitListener.ts';
+import { useRecoilState } from 'recoil';
+import { useNuiEvent } from '../hooks/useNuiEvent';
+import { debugData } from '../utils/debugData';
+import { useExitListener } from '../hooks/useExitListener';
 import CardWrapper from './Card';
 import '@fontsource/plus-jakarta-sans';
 import {
-  errorState,
+  debug as debugState,
   notificationState,
   openState,
-  secondMenu,
   shouldMenuBeOpen,
 } from './state';
 import SecondCard from './SecondCard';
@@ -63,15 +61,6 @@ debugData([
   },
 ]);
 
-const ReturnClientDataComp = ({ data }) => (
-  <>
-    <h5>Returned Data:</h5>
-    <pre>
-      <code>{JSON.stringify(data, null)}</code>
-    </pre>
-  </>
-);
-
 const variants = {
   visible: { opacity: 1, x: 0 },
   hidden: { opacity: 0, x: 1000 },
@@ -109,57 +98,88 @@ const NotificationVariants = {
   },
 };
 
-const Root = () => {
-  const [clientData, setClientData] = useState(null);
-  const [objectName, setObjectName] = useState('apa_mp_h_yacht_strip_chair_01');
-  const [isOpen, setOpen] = useRecoilState(openState);
-  const [isSecondOpen, setSecondOpen] = useRecoilState(shouldMenuBeOpen);
-  const [notif, setNotif] = useRecoilState(notificationState);
+function DebugComponent(props: { isOpen: any; setOpen: any; deb: any }) {
+  const { isOpen, setOpen, deb } = props;
+  return (
+    <Container
+      style={{
+        border: '2px solid black',
+        borderRadius: 8,
+        padding: 15,
+        position: 'absolute',
+        color: 'black',
+        background: 'white',
+      }}
+    >
+      <p>Debug nappeja</p>
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(!isOpen);
+        }}
+      >
+        toggle open
+      </button>
 
-  useNuiEvent('setVisible', (data) => {
+      <div style={{ overflowY: 'scroll', height: 'calc(100% - 70px)' }}>
+        {deb.map((debugThing: any, i: number) => {
+          console.log(debugThing);
+          if (debugThing.error) {
+            return (
+              <div
+                style={{ marginBottom: 10, border: '2px solid black' }}
+                key={i}
+              >
+                <p style={{ margin: '4px' }}>Request:</p>
+                <code>{JSON.stringify(debugThing.data)}</code>
+                <br />
+                <p style={{ margin: '4px' }}>Response: Error</p>
+              </div>
+            );
+          }
+          return (
+            <div
+              style={{ marginBottom: 10, border: '2px solid black' }}
+              key={i}
+            >
+              <p style={{ margin: '4px' }}>
+                Event:
+                {debugThing.eventName}
+              </p>
+              <p style={{ margin: '4px' }}>Request:</p>
+              <code>{JSON.stringify(debugThing.data)}</code>
+              <br />
+
+              <p style={{ margin: '4px' }}>Response:</p>
+              <code>{JSON.stringify(debugThing.response)}</code>
+            </div>
+          );
+        })}
+      </div>
+    </Container>
+  );
+}
+
+const Root = () => {
+  const [isOpen, setOpen] = useRecoilState(openState);
+  const [isSecondOpen, setSecondOpen] = useRecoilState<any>(shouldMenuBeOpen);
+  const [notif, setNotif] = useRecoilState(notificationState);
+  const [debug, setDebug] = useRecoilState(debugState);
+  const [deb, setDeb] = useState([]);
+
+  useNuiEvent('setVisible', (data: boolean) => {
     // This is our handler for the setVisible action.
     console.log('setvisible', data);
     setOpen(data);
   });
 
-  useNuiEvent('camData', (data) => {
+  useNuiEvent('debug', (data: boolean) => {
     // This is our handler for the setVisible action.
-    // console.log('camData', data);
+    console.log('setDebug', data);
+    setDebug(data);
   });
 
   useExitListener(setOpen);
-
-  const handleGetClientData = async () => {
-    const retData = await fetchNui('getClientData');
-    console.log('Got return data from client scripts:');
-    console.dir(retData);
-    setClientData(retData);
-  };
-
-  const createObject = async () => {
-    const retData = await fetchNui('createObject', { object: objectName });
-    console.log('Done objecti', retData);
-  };
-
-  const getObject = async () => {
-    const retData = await fetchNui('getObject');
-    // console.log('Done ', retData);
-    const resData = await fetchNui('getObjectData', retData);
-    console.log('Done ', resData);
-  };
-
-  // useEffect(() => {
-  //   const keyHandler = (e) => {
-  //     // console.log(e.code);
-  //     if (e.code === 'KeyE') {
-  //       getObject();
-  //     }
-  //   };
-  //
-  //   window.addEventListener('keydown', keyHandler);
-  //
-  //   return () => window.removeEventListener('keydown', keyHandler);
-  // }, []);
 
   function closeSecondMenu() {
     if (isSecondOpen.open) {
@@ -167,8 +187,26 @@ const Root = () => {
     }
   }
 
+  useEffect(() => {
+    if (!(window as any).invokeNative) {
+      setDebug(true);
+    }
+
+    const interval = setInterval(() => {
+      // @ts-ignore
+      if (window.debugRequests.length === deb.length) return;
+      // @ts-ignore
+      setDeb(window.debugRequests);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
   return (
     <ThemeProvider theme={darkTheme}>
+      {debug && <DebugComponent isOpen={isOpen} setOpen={setOpen} deb={deb} />}
       <motion.div
         variants={variants}
         initial={{ x: 1000 }}
@@ -180,8 +218,8 @@ const Root = () => {
 
           <SecondContainer style={{ height: 'auto' }}>
             <motion.div
-              variants={NotificationVariants}
-              initial={{ x: 1000, zIndex: '0' }}
+              variants={NotificationVariants as any}
+              initial={{ x: 1000, zIndex: '0' } as any}
               transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
               animate={notif[0] ? 'visible' : 'hidden'}
             >
@@ -199,8 +237,8 @@ const Root = () => {
           <SecondContainer>
             <motion.div
               style={{ position: 'fixed', transform: 'translate(-80px, 0px)' }}
-              variants={secondVariants}
-              initial={{ x: 1000, zIndex: '0' }}
+              variants={secondVariants as any}
+              initial={{ x: 1000, zIndex: '0' } as any}
               transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
               animate={isSecondOpen.open ? 'visible' : 'hidden'}
             >

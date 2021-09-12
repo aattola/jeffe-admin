@@ -7,6 +7,7 @@ RegisterNuiCallbackType('car');
 
 class CarManager {
   protected static instance: CarManager;
+  lastCar: Cfx.Vehicle | null = null;
 
   static getInstance(): CarManager {
     if (!CarManager.instance) {
@@ -17,10 +18,10 @@ class CarManager {
   }
 
   constructor() {
-    on('__cfx_nui:car', this.handleCar);
-  }
+    on('__cfx_nui:car', (data: CarPayload, cb: (responseData: any) => void) => this.handleCar(data, cb));
 
-  lastCar: Cfx.Vehicle;
+    this.lastCar = null;
+  }
 
   async handleCar(
     data: CarPayload,
@@ -29,8 +30,6 @@ class CarManager {
     function returnError(error: string) {
       cb({ ok: false, error });
     }
-
-    console.log(data);
 
     if (data.type === 'spawn') {
       if (!data.model) return returnError('No model found');

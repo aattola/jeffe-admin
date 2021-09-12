@@ -43,7 +43,7 @@ const SettingsGrid = styled.div`
 function CardWrapper() {
   const settingMenus = ['Pelaaja', 'Autot', 'Sää'];
   const [selected, setSelected] = useState('');
-  const [openState, setOpen] = useRecoilState(shouldMenuBeOpen);
+  const [openState, setOpen] = useRecoilState<any | any>(shouldMenuBeOpen);
 
   console.log('OPEN STATE', openState);
 
@@ -62,7 +62,7 @@ function CardWrapper() {
       <div style={{ height: 'calc(100% - 70px)' }}>
         <SettingsContainer>
           <ErrorBoundary>
-            {(openState.components || []).map((Component, i) => (
+            {(openState.components || []).map((Component: any, i: number) => (
               <span key={i}>
                 <Component />
               </span>

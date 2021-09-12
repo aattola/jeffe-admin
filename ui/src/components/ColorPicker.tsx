@@ -1,4 +1,4 @@
-import { ColorPicker, toColor, useColor } from 'react-color-palette';
+import { Color, ColorPicker, toColor, useColor } from 'react-color-palette';
 import { throttle } from 'underscore';
 import {
   Accordion,
@@ -18,7 +18,7 @@ const ColorGrid = styled.div`
   margin-top: 10px;
 `;
 
-const Color = styled.div`
+const Colorri = styled.div`
   height: 50px;
   width: 50px;
   background: ${(props) => props.color};
@@ -44,17 +44,17 @@ const colorOptions = [
 ];
 
 // eslint-disable-next-line react/prop-types
-function ColourPicker({ type, getColor }) {
+function ColourPicker({ type, getColor }: { type: any; getColor: any }) {
   const [color, setColor] = useColor('hex', '#121212');
 
-  const asetaColor = (e) => {
+  const asetaColor = (e: string) => {
     const colour = toColor('hex', e);
     console.log(colour);
     getColor(colour, type);
     setColor(colour);
   };
 
-  const asetaColorThrottle = (e) => {
+  const asetaColorThrottle = (e: React.SetStateAction<Color>) => {
     const callMe = throttle(getColor, 200);
     setColor(e);
     callMe(e, type);
@@ -74,9 +74,13 @@ function ColourPicker({ type, getColor }) {
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>{type} Color</Typography>
+        <Typography>
+          {type}
+          Color
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
+        {/* @ts-ignore */}
         <center>
           <ColorPicker
             width={460}
@@ -87,15 +91,19 @@ function ColourPicker({ type, getColor }) {
             hideHSV
             dark
           />
+          {/* @ts-ignore */}
         </center>
 
         <ColorGrid>
           {colorOptions.map((option) => (
-            <Color
-              key={option}
-              onClick={() => asetaColor(option)}
-              color={option}
-            />
+            <span key={option}>
+              {/* @ts-ignore */}
+              <Colorri
+                key={option}
+                onClick={() => asetaColor(option)}
+                color={option}
+              />
+            </span>
           ))}
         </ColorGrid>
       </AccordionDetails>

@@ -6,7 +6,7 @@ import './weather';
 import './hideFrame';
 import './time';
 import CarManager from './car';
-import { menuOpen, toggleNuiFrame } from './menuState';
+import { menuOpen, SendReactMessage, toggleNuiFrame } from './menuState';
 
 CarManager.getInstance();
 
@@ -22,6 +22,11 @@ RegisterCommand(
   },
   false
 );
+
+RegisterCommand("devmode", (source: any, args: any) => {
+  if (!args[0]) return
+  SendReactMessage("debug", args[0])
+}, false)
 
 setTick(async () => {
   // await Delay(10)
