@@ -39,7 +39,7 @@ const Container = styled(Card)`
   width: 540px;
 
   height: calc(100% - 80px);
-  //height: 100%;
+  /* //height: 100%; */
 `;
 
 const Huutista = styled.div`
@@ -175,6 +175,7 @@ const Root = () => {
 
   useNuiEvent('debug', (data: boolean) => {
     // This is our handler for the setVisible action.
+
     console.log('setDebug', data);
     setDebug(data);
   });

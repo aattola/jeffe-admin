@@ -69,6 +69,8 @@ class CarManager {
         }
       }
 
+
+
       const vehicle = await Cfx.World.createVehicle(
         model,
         safePosition,

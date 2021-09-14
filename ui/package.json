@@ -33,7 +33,8 @@
   },
   "scripts": {
     "start": "webpack --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "eslintti": "eslint --ext .tsx ./src"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",

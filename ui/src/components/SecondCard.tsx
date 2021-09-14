@@ -50,7 +50,10 @@ function CardWrapper() {
   return (
     <Container>
       <Topbar>
-        <Text>{openState?.title || 'Unohdit openState.titlen'}</Text>
+        <Text> 
+{' '}
+{openState?.title || 'Unohdit openState.titlen'}
+</Text>
 
         <IconButton onClick={() => setOpen(false)}>
           <CloseIcon />

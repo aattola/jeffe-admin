@@ -1,17 +1,22 @@
-{
+module.exports = {
   "extends": [
     "wesbos/typescript"
-    //    "react-app"
   ],
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "tsconfigRootDir": __dirname,
+    "sourceType": "module"
+  },
   "rules": {
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-unsafe-return": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-implied-eval": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
-    "@typescript-eslint/no-unsafe-assignment": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/ban-ts-comment": "off",
