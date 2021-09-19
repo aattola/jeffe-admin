@@ -22,6 +22,7 @@ import {
 import SecondCard from './SecondCard';
 import NotificationCard from './Notifications/NotificationCard';
 import openState from './state/OpenState';
+import Noclip from './Noclip';
 
 const darkTheme = createTheme({
   palette: {
@@ -58,7 +59,14 @@ const SecondContainer = styled.div`
 debugData([
   {
     action: 'setVisible',
-    data: true,
+    data: false,
+  },
+]);
+
+debugData([
+  {
+    action: 'setNoclip',
+    data: { noclip: true, speed: 2 },
   },
 ]);
 
@@ -166,11 +174,17 @@ const Root = () => {
   const [notif] = useRecoilState(notificationState);
   const [debug, setDebug] = useRecoilState(debugState);
   const [deb, setDeb] = useState([]);
+  const [noclip, setNoclip] = useState({ noclip: false, speed: 0, zoom: false });
 
   useNuiEvent('setVisible', (data: boolean) => {
     // This is our handler for the setVisible action.
-    console.log('setvisible', data);
     openState.isOpen = data;
+  });
+
+  useNuiEvent('setNoclip', (data: any) => {
+    // This is our handler for the setVisible action.
+    setNoclip(data);
+    // openState.isOpen = data;
   });
 
   useNuiEvent('debug', (data: boolean) => {
@@ -214,6 +228,8 @@ const Root = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       {debug && <DebugComponent isOpen={openState.isOpen} setOpen={handleSetOpen} deb={deb} />}
+      <Noclip data={noclip} />
+
       <motion.div
         variants={variants}
         initial={{ x: 1000 }}

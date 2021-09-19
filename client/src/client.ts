@@ -9,10 +9,12 @@ import { menuOpen, SendReactMessage, toggleNuiFrame } from './menuState';
 import CarManager from './car';
 import MenuManager from './menu';
 import WeaponManager from './Weapon';
+import NoclipManager from './noclip';
 
 CarManager.getInstance();
 MenuManager.getInstance();
 WeaponManager.getInstance();
+NoclipManager.getInstance();
 
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 

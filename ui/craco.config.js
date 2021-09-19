@@ -1,4 +1,5 @@
 const path = require('path');
+const { ESLINT_MODES } = require('@craco/craco');
 
 module.exports = {
   devServer: {
@@ -30,5 +31,12 @@ module.exports = {
     }
 
     return devServerConfig;
+  },
+  eslint: {
+    mode: ESLINT_MODES.extends,
+    configure: () =>
+      // Workaround for broken ESLINT_MODES.file mode
+      require('./.eslintrc.json'),
+
   },
 };

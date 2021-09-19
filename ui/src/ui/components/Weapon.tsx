@@ -62,6 +62,11 @@ function Weapon() {
     setLoading(false);
   };
 
+  const removeWeapons = async () => {
+    await fetchNui('removeWeapons')
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
 
@@ -109,6 +114,19 @@ function Weapon() {
           }}
         />
       </Grid>
+
+      <button
+        style={{
+          display: 'flex',
+          gap: '10px',
+          alignItems: 'center',
+        }}
+        onClick={() => removeWeapons()}
+        type="button"
+        className="block red"
+      >
+        Remove weapons
+      </button>
     </>
   );
 }

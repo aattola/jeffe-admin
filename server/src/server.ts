@@ -26,11 +26,16 @@ onNetPromise('jeffe-admin:hasPermissions', (data: any, cb: (returnData: any) => 
   return cb({ ok: false });
 });
 
-onNetPromise('jeffe-admin:giveWeapon', (data: {weaponHash: string, bullets: number, target?: {id: string}}, cb) => {
-  console.log(data.target);
-  const ped = data.target ? GetPlayerPed(data.target.id) : source;
-  console.log(ped, data.weaponHash, Number(data.bullets), false, false);
-  GiveWeaponToPed(ped, data.weaponHash, Number(data.bullets), false, false);
+onNetPromise('jeffe-admin:giveWeapon', (data: {weaponHash: string, bullets: number, target?: {id: number}}, cb) => {
+  const ped = data.target ? data.target.id : source;
+
+  emitNet('jeffe-admin:giveWeapon:client', ped, {
+    ped,
+    weapon: data.weaponHash,
+    bullets: Number(data.bullets),
+    isHidden: false,
+    forceInHand: false,
+  });
 
   cb({ ok: true });
 });
@@ -48,6 +53,5 @@ onNetPromise('jeffe-admin:getPlayers', (data, cb) => {
 
   console.timeEnd('players');
 
-  // console.log('serveri dataa', p);
-  cb({ ok: true, players: p });
+  cb({ ok: true, players: p, youAreThisGuidSmile: GetPlayerGuid(String(source)) });
 });

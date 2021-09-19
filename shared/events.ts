@@ -24,10 +24,10 @@ function emitNetPromise(resource: string, data?: any, timeout = 2500) {
       // eslint-disable-next-line no-restricted-globals
       removeEventListener(eventNameListen, handleEvent);
 
-      // if (returnData.ok === false) {
-      //   // eslint-disable-next-line prefer-promise-reject-errors
-      //   reject({ ok: false, error: returnData.error });
-      // }
+      if (returnData.ok === false) {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject({ ok: false, error: returnData.error });
+      }
 
       resolve(returnData);
     }

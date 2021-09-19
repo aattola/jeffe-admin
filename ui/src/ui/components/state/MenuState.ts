@@ -30,10 +30,16 @@ class MenuStateStore {
   }
 
   async getPlayers() {
-    const { players: playersArray } = await fetchNui('getTargets');
+    const { players: playersArray, youAreThisGuidSmile } = await fetchNui('getTargets');
+
+    playersArray.forEach((player: Player) => {
+      if (player.guid === youAreThisGuidSmile) {
+        this.target = player;
+      }
+    });
+
     this.players = playersArray;
   }
-
   // getTargets
 }
 

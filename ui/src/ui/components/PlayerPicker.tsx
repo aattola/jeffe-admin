@@ -57,7 +57,6 @@ function PlayerPicker() {
             MenuProps={MenuProps}
             onChange={handleChange}
           >
-            <MenuItem value="">None</MenuItem>
             {menuState.players.map((player) => (
               <MenuItem value={player.guid} key={player.guid}>
                 {player.id}

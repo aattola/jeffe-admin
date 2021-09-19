@@ -39,9 +39,9 @@ class MenuManager {
     const returnedData: any = await emitNetPromise('jeffe-admin:getPlayers')
       .catch((e) => console.log('playerget failed', e));
 
-    const { players } = returnedData;
+    const { players, youAreThisGuidSmile } = returnedData;
 
-    cb({ ok: true, players });
+    cb({ ok: true, players, youAreThisGuidSmile });
   }
 }
 

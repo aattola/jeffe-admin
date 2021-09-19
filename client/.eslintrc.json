@@ -21,6 +21,7 @@
         "@typescript-eslint"
       ],
     "rules": {
+      "class-methods-use-this": "off",
       "no-console": "off",
       "import/no-mutable-exports": "off",
       "@typescript-eslint/ban-ts-comment": "off",
