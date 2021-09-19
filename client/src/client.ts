@@ -5,10 +5,14 @@ import * as Cfx from 'fivem-js';
 import './weather';
 import './hideFrame';
 import './time';
-import CarManager from './car';
 import { menuOpen, SendReactMessage, toggleNuiFrame } from './menuState';
+import CarManager from './car';
+import MenuManager from './menu';
+import WeaponManager from './Weapon';
 
 CarManager.getInstance();
+MenuManager.getInstance();
+WeaponManager.getInstance();
 
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 

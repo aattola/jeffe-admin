@@ -1,3 +1,17 @@
+import { toJS } from 'mobx';
+import menuState from '../components/state/MenuState';
+
+type EventName = {resource: string; eventName: string} | string
+
+function resolveResourceName(eventName: EventName) {
+  if (typeof eventName !== 'string') {
+    return eventName.resource;
+  }
+  return (window as any).GetParentResourceName
+    ? (window as any).GetParentResourceName()
+    : 'nui-frame-app';
+}
+
 /**
  * Simple wrapper around fetch API tailored for CEF/NUI use. This abstraction
  * can be extended to include AbortController if needed or if the response isn't
@@ -10,20 +24,26 @@
  */
 
 export async function fetchNui<T = any>(
-  eventName: string,
+  eventName: EventName,
   data?: any,
 ): Promise<T> {
+  let reqData = { ...data };
+  if (menuState.target?.name) {
+    reqData = {
+      ...reqData,
+      target: toJS(menuState.target),
+    };
+  }
+
   const options = {
     method: 'post',
     headers: {
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(reqData),
   };
 
-  const resourceName = (window as any).GetParentResourceName
-    ? (window as any).GetParentResourceName()
-    : 'nui-frame-app';
+  const resourceName = resolveResourceName(eventName);
 
   const resp = await fetch(`https://${resourceName}/${eventName}`, options);
 

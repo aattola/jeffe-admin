@@ -14,6 +14,8 @@ import Car from './Car';
 import { errorState, secondMenu } from './state';
 
 import 'react-color-palette/lib/css/styles.css';
+import PlayerPicker from './PlayerPicker';
+import Weapon from './Weapon';
 
 const Topbar = styled.div`
   //border: 1px solid rgb(251 251 251 / 15%);
@@ -131,6 +133,12 @@ function CardWrapper() {
               >
                 Avaa valikko komponentilla
               </button>
+
+              <div style={{ margin: '30px 0px' }}>
+                <Weapon />
+              </div>
+
+              <PlayerPicker />
               <Divider variant="middle" style={{ margin: '20px 0px' }} />
               <Car />
               <Divider variant="middle" style={{ margin: '20px 0px' }} />

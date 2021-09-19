@@ -514,122 +514,437 @@ const CarConstants = [
   'Youga2',
 ];
 
-const Weapons = {
-  melee: {
-    dagger: '0x92A27487',
-    bat: '0x958A4A8F',
-    bottle: '0xF9E6AA4B',
-    crowbar: '0x84BD7BFD',
-    unarmed: '0xA2719263',
-    flashlight: '0x8BB05FD7',
-    golfclub: '0x440E4788',
-    hammer: '0x4E875F73',
-    hatchet: '0xF9DCBF2D',
-    knuckle: '0xD8DF3C3C',
-    knife: '0x99B507EA',
-    machete: '0xDD5DF8D9',
-    switchblade: '0xDFE37640',
-    nightstick: '0x678B81B1',
-    wrench: '0x19044EE0',
-    battleaxe: '0xCD274149',
-    poolcue: '0x94117305',
-    stone_hatchet: '0x3813FC08',
+const Weapons = [
+  {
+    type: 'melee',
+    keys: [
+      {
+        type: 'dagger',
+        keys: '0x92A27487',
+      },
+      {
+        type: 'bat',
+        keys: '0x958A4A8F',
+      },
+      {
+        type: 'bottle',
+        keys: '0xF9E6AA4B',
+      },
+      {
+        type: 'crowbar',
+        keys: '0x84BD7BFD',
+      },
+      {
+        type: 'unarmed',
+        keys: '0xA2719263',
+      },
+      {
+        type: 'flashlight',
+        keys: '0x8BB05FD7',
+      },
+      {
+        type: 'golfclub',
+        keys: '0x440E4788',
+      },
+      {
+        type: 'hammer',
+        keys: '0x4E875F73',
+      },
+      {
+        type: 'hatchet',
+        keys: '0xF9DCBF2D',
+      },
+      {
+        type: 'knuckle',
+        keys: '0xD8DF3C3C',
+      },
+      {
+        type: 'knife',
+        keys: '0x99B507EA',
+      },
+      {
+        type: 'machete',
+        keys: '0xDD5DF8D9',
+      },
+      {
+        type: 'switchblade',
+        keys: '0xDFE37640',
+      },
+      {
+        type: 'nightstick',
+        keys: '0x678B81B1',
+      },
+      {
+        type: 'wrench',
+        keys: '0x19044EE0',
+      },
+      {
+        type: 'battleaxe',
+        keys: '0xCD274149',
+      },
+      {
+        type: 'poolcue',
+        keys: '0x94117305',
+      },
+      {
+        type: 'stone_hatchet',
+        keys: '0x3813FC08',
+      },
+    ],
   },
-  handguns: {
-    pistol: '0x1B06D571',
-    pistol_mk2: '0xBFE256D4',
-    combatpistol: '0x5EF9FEC4',
-    appistol: '0x22D8FE39',
-    stungun: '0x3656C8C1',
-    pistol50: '0x99AEEB3B',
-    snspistol: '0xBFD21232',
-    snspistol_mk2: '0x88374054',
-    heavypistol: '0xD205520E',
-    vintagepistol: '0x83839C4',
-    flaregun: '0x47757124',
-    marksmanpistol: '0xDC4DB296',
-    revolver: '0xC1B3C3D1',
-    revolver_mk2: '0xCB96392F',
-    doubleaction: '0x97EA20B8',
-    raypistol: '0xAF3696A1',
-    ceramicpistol: '0x2B5EF5EC',
-    navyrevolver: '0x917F6C8C',
+  {
+    type: 'handguns',
+    keys: [
+      {
+        type: 'pistol',
+        keys: '0x1B06D571',
+      },
+      {
+        type: 'pistol_mk2',
+        keys: '0xBFE256D4',
+      },
+      {
+        type: 'combatpistol',
+        keys: '0x5EF9FEC4',
+      },
+      {
+        type: 'appistol',
+        keys: '0x22D8FE39',
+      },
+      {
+        type: 'stungun',
+        keys: '0x3656C8C1',
+      },
+      {
+        type: 'pistol50',
+        keys: '0x99AEEB3B',
+      },
+      {
+        type: 'snspistol',
+        keys: '0xBFD21232',
+      },
+      {
+        type: 'snspistol_mk2',
+        keys: '0x88374054',
+      },
+      {
+        type: 'heavypistol',
+        keys: '0xD205520E',
+      },
+      {
+        type: 'vintagepistol',
+        keys: '0x83839C4',
+      },
+      {
+        type: 'flaregun',
+        keys: '0x47757124',
+      },
+      {
+        type: 'marksmanpistol',
+        keys: '0xDC4DB296',
+      },
+      {
+        type: 'revolver',
+        keys: '0xC1B3C3D1',
+      },
+      {
+        type: 'revolver_mk2',
+        keys: '0xCB96392F',
+      },
+      {
+        type: 'doubleaction',
+        keys: '0x97EA20B8',
+      },
+      {
+        type: 'raypistol',
+        keys: '0xAF3696A1',
+      },
+      {
+        type: 'ceramicpistol',
+        keys: '0x2B5EF5EC',
+      },
+      {
+        type: 'navyrevolver',
+        keys: '0x917F6C8C',
+      },
+    ],
   },
-  smg: {
-    microsmg: '0x13532244',
-    smg: '0x2BE6766B',
-    smg_mk2: '0x78A97CD0',
-    assaultsmg: '0xEFE7E2DF',
-    combatpdw: '0xA3D4D34',
-    machinepistol: '0xDB1AA450',
-    minismg: '0xBD248B55',
-    raycarbine: '0x476BF155',
+  {
+    type: 'smg',
+    keys: [
+      {
+        type: 'microsmg',
+        keys: '0x13532244',
+      },
+      {
+        type: 'smg',
+        keys: '0x2BE6766B',
+      },
+      {
+        type: 'smg_mk2',
+        keys: '0x78A97CD0',
+      },
+      {
+        type: 'assaultsmg',
+        keys: '0xEFE7E2DF',
+      },
+      {
+        type: 'combatpdw',
+        keys: '0xA3D4D34',
+      },
+      {
+        type: 'machinepistol',
+        keys: '0xDB1AA450',
+      },
+      {
+        type: 'minismg',
+        keys: '0xBD248B55',
+      },
+      {
+        type: 'raycarbine',
+        keys: '0x476BF155',
+      },
+    ],
   },
-  shotguns: {
-    pumpshotgun: '0x1D073A89',
-    pumpshotgun_mk2: '0x555AF99A',
-    sawnoffshotgun: '0x7846A318',
-    assaultshotgun: '0xE284C527',
-    bullpupshotgun: '0x9D61E50F',
-    musket: '0xA89CB99E',
-    heavyshotgun: '0x3AABBBAA',
-    dbshotgun: '0xEF951FBB',
-    autoshotgun: '0x12E82D3D',
+  {
+    type: 'shotguns',
+    keys: [
+      {
+        type: 'pumpshotgun',
+        keys: '0x1D073A89',
+      },
+      {
+        type: 'pumpshotgun_mk2',
+        keys: '0x555AF99A',
+      },
+      {
+        type: 'sawnoffshotgun',
+        keys: '0x7846A318',
+      },
+      {
+        type: 'assaultshotgun',
+        keys: '0xE284C527',
+      },
+      {
+        type: 'bullpupshotgun',
+        keys: '0x9D61E50F',
+      },
+      {
+        type: 'musket',
+        keys: '0xA89CB99E',
+      },
+      {
+        type: 'heavyshotgun',
+        keys: '0x3AABBBAA',
+      },
+      {
+        type: 'dbshotgun',
+        keys: '0xEF951FBB',
+      },
+      {
+        type: 'autoshotgun',
+        keys: '0x12E82D3D',
+      },
+    ],
   },
-  assault_rifles: {
-    assaultrifle: '0xBFEFFF6D',
-    assaultrifle_mk2: '0x394F415C',
-    carbinerifle: '0x83BF0278',
-    carbinerifle_mk2: '0xFAD1F1C9',
-    advancedrifle: '0xAF113F99',
-    specialcarbine: '0xC0A3098D',
-    specialcarbine_mk2: '0x969C3D67',
-    bullpuprifle: '0x7F229F94',
-    bullpuprifle_mk2: '0x84D6FAFD',
-    compactrifle: '0x624FE830',
+  {
+    type: 'assault_rifles',
+    keys: [
+      {
+        type: 'assaultrifle',
+        keys: '0xBFEFFF6D',
+      },
+      {
+        type: 'assaultrifle_mk2',
+        keys: '0x394F415C',
+      },
+      {
+        type: 'carbinerifle',
+        keys: '0x83BF0278',
+      },
+      {
+        type: 'carbinerifle_mk2',
+        keys: '0xFAD1F1C9',
+      },
+      {
+        type: 'advancedrifle',
+        keys: '0xAF113F99',
+      },
+      {
+        type: 'specialcarbine',
+        keys: '0xC0A3098D',
+      },
+      {
+        type: 'specialcarbine_mk2',
+        keys: '0x969C3D67',
+      },
+      {
+        type: 'bullpuprifle',
+        keys: '0x7F229F94',
+      },
+      {
+        type: 'bullpuprifle_mk2',
+        keys: '0x84D6FAFD',
+      },
+      {
+        type: 'compactrifle',
+        keys: '0x624FE830',
+      },
+    ],
   },
-  machine_guns: {
-    mg: '0x9D07F764',
-    combatmg: '0x7FD62962',
-    combatmg_mk2: '0xDBBD7280',
-    gusenberg: '0x61012683',
+  {
+    type: 'machine_guns',
+    keys: [
+      {
+        type: 'mg',
+        keys: '0x9D07F764',
+      },
+      {
+        type: 'combatmg',
+        keys: '0x7FD62962',
+      },
+      {
+        type: 'combatmg_mk2',
+        keys: '0xDBBD7280',
+      },
+      {
+        type: 'gusenberg',
+        keys: '0x61012683',
+      },
+    ],
   },
-  sniper_rifles: {
-    sniperrifle: '0x5FC3C11',
-    heavysniper: '0xC472FE2',
-    heavysniper_mk2: '0xA914799',
-    marksmanrifle: '0xC734385A',
-    marksmanrifle_mk2: '0x6A6C02E0',
+  {
+    type: 'sniper_rifles',
+    keys: [
+      {
+        type: 'sniperrifle',
+        keys: '0x5FC3C11',
+      },
+      {
+        type: 'heavysniper',
+        keys: '0xC472FE2',
+      },
+      {
+        type: 'heavysniper_mk2',
+        keys: '0xA914799',
+      },
+      {
+        type: 'marksmanrifle',
+        keys: '0xC734385A',
+      },
+      {
+        type: 'marksmanrifle_mk2',
+        keys: '0x6A6C02E0',
+      },
+    ],
   },
-  heavy_weapons: {
-    rpg: '0xB1CA77B1',
-    grenadelauncher: '0xA284510B',
-    grenadelauncher_smoke: '0x4DD2DC56',
-    minigun: '0x42BF8A85',
-    firework: '0x7F7497E5',
-    railgun: '0x6D544C99',
-    hominglauncher: '0x63AB0442',
-    compactlauncher: '0x781FE4A',
-    rayminigun: '0xB62D1F67',
+  {
+    type: 'heavy_weapons',
+    keys: [
+      {
+        type: 'rpg',
+        keys: '0xB1CA77B1',
+      },
+      {
+        type: 'grenadelauncher',
+        keys: '0xA284510B',
+      },
+      {
+        type: 'grenadelauncher_smoke',
+        keys: '0x4DD2DC56',
+      },
+      {
+        type: 'minigun',
+        keys: '0x42BF8A85',
+      },
+      {
+        type: 'firework',
+        keys: '0x7F7497E5',
+      },
+      {
+        type: 'railgun',
+        keys: '0x6D544C99',
+      },
+      {
+        type: 'hominglauncher',
+        keys: '0x63AB0442',
+      },
+      {
+        type: 'compactlauncher',
+        keys: '0x781FE4A',
+      },
+      {
+        type: 'rayminigun',
+        keys: '0xB62D1F67',
+      },
+    ],
   },
-  throwables: {
-    grenade: '0x93E220BD',
-    bzgas: '0xA0973D5E',
-    smokegrenade: '0xFDBC8A50',
-    flare: '0x497FACC3',
-    molotov: '0x24B17070',
-    stickybomb: '0x2C3731D9',
-    proxmine: '0xAB564B93',
-    snowball: '0x787F0BB',
-    pipebomb: '0xBA45E8B8',
-    ball: '0x23C9F95C',
+  {
+    type: 'throwables',
+    keys: [
+      {
+        type: 'grenade',
+        keys: '0x93E220BD',
+      },
+      {
+        type: 'bzgas',
+        keys: '0xA0973D5E',
+      },
+      {
+        type: 'smokegrenade',
+        keys: '0xFDBC8A50',
+      },
+      {
+        type: 'flare',
+        keys: '0x497FACC3',
+      },
+      {
+        type: 'molotov',
+        keys: '0x24B17070',
+      },
+      {
+        type: 'stickybomb',
+        keys: '0x2C3731D9',
+      },
+      {
+        type: 'proxmine',
+        keys: '0xAB564B93',
+      },
+      {
+        type: 'snowball',
+        keys: '0x787F0BB',
+      },
+      {
+        type: 'pipebomb',
+        keys: '0xBA45E8B8',
+      },
+      {
+        type: 'ball',
+        keys: '0x23C9F95C',
+      },
+    ],
   },
-  misc: {
-    petrolcan: '0x34A67B97',
-    fireextinguisher: '0x60EC506',
-    parachute: '0xFBAB5776',
-    hazardcan: '0xBA536372',
+  {
+    type: 'misc',
+    keys: [
+      {
+        type: 'petrolcan',
+        keys: '0x34A67B97',
+      },
+      {
+        type: 'fireextinguisher',
+        keys: '0x60EC506',
+      },
+      {
+        type: 'parachute',
+        keys: '0xFBAB5776',
+      },
+      {
+        type: 'hazardcan',
+        keys: '0xBA536372',
+      },
+    ],
   },
-};
+];
 
 export { CarConstants, Weapons };

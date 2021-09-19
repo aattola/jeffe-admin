@@ -8,6 +8,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Card } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
+import { observer } from 'mobx-react';
+
 import { useNuiEvent } from '../hooks/useNuiEvent';
 import { debugData } from '../utils/debugData';
 import { useExitListener } from '../hooks/useExitListener';
@@ -15,11 +17,11 @@ import CardWrapper from './Card';
 import {
   debug as debugState,
   notificationState,
-  openState,
   shouldMenuBeOpen,
 } from './state';
 import SecondCard from './SecondCard';
 import NotificationCard from './Notifications/NotificationCard';
+import openState from './state/OpenState';
 
 const darkTheme = createTheme({
   palette: {
@@ -97,7 +99,7 @@ const NotificationVariants = {
   },
 };
 
-function DebugComponent(props: { isOpen: any; setOpen: any; deb: any }) {
+function DebugComponent(props: { isOpen: boolean; deb: any; setOpen: (o: boolean) => void }) {
   const { isOpen, setOpen, deb } = props;
   return (
     <Container
@@ -160,7 +162,6 @@ function DebugComponent(props: { isOpen: any; setOpen: any; deb: any }) {
 }
 
 const Root = () => {
-  const [isOpen, setOpen] = useRecoilState(openState);
   const [isSecondOpen, setSecondOpen] = useRecoilState<any>(shouldMenuBeOpen);
   const [notif] = useRecoilState(notificationState);
   const [debug, setDebug] = useRecoilState(debugState);
@@ -169,7 +170,7 @@ const Root = () => {
   useNuiEvent('setVisible', (data: boolean) => {
     // This is our handler for the setVisible action.
     console.log('setvisible', data);
-    setOpen(data);
+    openState.isOpen = data;
   });
 
   useNuiEvent('debug', (data: boolean) => {
@@ -179,7 +180,13 @@ const Root = () => {
     setDebug(data);
   });
 
-  useExitListener(setOpen);
+  useExitListener(() => {
+    openState.isOpen = false;
+  });
+
+  function handleSetOpen(o: boolean) {
+    openState.isOpen = o;
+  }
 
   function closeSecondMenu() {
     if (isSecondOpen.open) {
@@ -206,12 +213,12 @@ const Root = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      {debug && <DebugComponent isOpen={isOpen} setOpen={setOpen} deb={deb} />}
+      {debug && <DebugComponent isOpen={openState.isOpen} setOpen={handleSetOpen} deb={deb} />}
       <motion.div
         variants={variants}
         initial={{ x: 1000 }}
         transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-        animate={isOpen ? 'visible' : 'hidden'}
+        animate={openState.isOpen ? 'visible' : 'hidden'}
       >
         <Huutista>
           {/* NOTIF */}
@@ -265,4 +272,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default observer(Root);
