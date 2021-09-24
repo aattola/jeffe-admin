@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 const Pos = styled.div`
   position: absolute;
-  z-index: 2323;
+  z-index: 0;
   right: 0px;
   top: 50%;
   transform: translate(-0%, -50%);
@@ -25,7 +25,7 @@ const P = styled.p`
   font-size: 14px;
 `;
 
-function Noclip({ data }: { data: {noclip: boolean, speed: number, zoom: boolean} }) {
+function NoclipDialog({ data }: { data: {noclip: boolean, speed: number, zoom: boolean} }) {
   const zoomi = data.zoom ?? false;
   return (
     <Pos>
@@ -48,4 +48,4 @@ function Noclip({ data }: { data: {noclip: boolean, speed: number, zoom: boolean
   );
 }
 
-export default Noclip;
+export default NoclipDialog;

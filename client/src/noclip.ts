@@ -1,4 +1,5 @@
 import { menuOpen, SendReactMessage, toggleNuiFrame } from './menuState';
+import { emitNetPromise } from '../../shared/events';
 
 RegisterNuiCallbackType('toggleNoclip');
 
@@ -14,9 +15,6 @@ class NoclipManager {
   lastSpeed = 0.0
 
   controls = {
-    toggle: 'DELETE',
-    changeSpeed: 'LSHIFT',
-    camMode: 'H',
     goUp: 85, // Q
     goDown: 48, // Z
     turnLeft: 34, // A
@@ -47,6 +45,7 @@ class NoclipManager {
 
   constructor() {
     on('__cfx_nui:toggleNoclip', (data: any, cb: (responseData: any) => void) => this.toggleNoclip(data, cb));
+    onNet('jeffe-admin:toggleNoclip:client', (data: any) => this.handleNoclipToggle(data));
 
     RegisterCommand(
       'devnoclip',
@@ -59,9 +58,18 @@ class NoclipManager {
     setTick(() => this.noclipTick());
   }
 
-  noclipTick() {
+  disableControlActionsForFrame(): void {
+    const keys = Object.keys(this.controls);
+    keys.forEach((key) => {
+      // @ts-ignore
+      DisableControlAction(0, this.controls[key], true);
+    });
+  }
+
+  noclipTick(): void {
     if (this.noclip) {
-      DisableAllControlActions(0);
+      // DisableAllControlActions(0);
+      this.disableControlActionsForFrame();
       EnableControlAction(0, 1, true);
       EnableControlAction(0, 2, true);
 
@@ -120,7 +128,7 @@ class NoclipManager {
         yOff * (this.speed + 0.3),
         zOff * (this.speed + 0.3),
       );
-      const heading = GetEntityHeading(this.noclipEntity);
+      // const heading = GetEntityHeading(this.noclipEntity);
 
       SetEntityVelocity(this.noclipEntity, 0.0, 0.0, 0.0);
       SetEntityRotation(this.noclipEntity, 0.0, 0.0, 0.0, 0, false);
@@ -138,14 +146,8 @@ class NoclipManager {
     }
   }
 
-  toggleNoclip(
-    data: any,
-    cb: (responseData: any) => void,
-  ): void {
-    function returnError(error: string) {
-      cb({ ok: false, error });
-    }
-
+  handleNoclipToggle(data: {ped: number}): void {
+    const ped = GetPlayerPed(GetPlayerFromServerId(data.ped));
     if (!this.noclip) {
       if (IsPedInAnyVehicle(PlayerPedId(), false)) {
         this.noclipEntity = GetVehiclePedIsIn(PlayerPedId(), false);
@@ -176,10 +178,25 @@ class NoclipManager {
     SetPoliceIgnorePlayer(PlayerPedId(), !this.noclip);
 
     this.noclip = !this.noclip;
+  }
+
+  async toggleNoclip(
+    data: any,
+    cb: (responseData: any) => void,
+  ): Promise<void> {
+    function returnError(error: string) {
+      cb({ ok: false, error });
+    }
+
+    if (!data.target) {
+      return returnError('Choose target');
+    }
+
+    await emitNetPromise('jeffe-admin:toggleNoclip', { target: data.target });
 
     console.log('toggle noclip');
 
-    return cb({ ok: true });
+    return cb({ ok: true, noclip: this.noclip });
   }
 }
 
