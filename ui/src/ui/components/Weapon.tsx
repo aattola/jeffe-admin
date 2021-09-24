@@ -69,8 +69,7 @@ function Weapon() {
 
   return (
     <>
-
-      <h1>mo</h1>
+      {/* <Typography>Weapo</Typography> */}
 
       <FormControl fullWidth>
         <InputLabel htmlFor="weapon-select">Weapon</InputLabel>

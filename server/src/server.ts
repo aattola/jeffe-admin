@@ -55,3 +55,12 @@ onNetPromise('jeffe-admin:getPlayers', (data, cb) => {
 
   cb({ ok: true, players: p, youAreThisGuidSmile: GetPlayerGuid(String(source)) });
 });
+
+onNetPromise('jeffe-admin:toggleNoclip', (data, cb) => {
+  const ped = data.target ? data.target.id : source;
+  emitNet('jeffe-admin:toggleNoclip:client', ped, {
+    ped,
+  });
+
+  cb({ ok: true });
+});

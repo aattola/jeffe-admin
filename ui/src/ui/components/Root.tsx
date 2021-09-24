@@ -22,7 +22,7 @@ import {
 import SecondCard from './SecondCard';
 import NotificationCard from './Notifications/NotificationCard';
 import openState from './state/OpenState';
-import Noclip from './Noclip';
+import Noclip from './Dialogs/Noclip';
 
 const darkTheme = createTheme({
   palette: {
@@ -107,8 +107,15 @@ const NotificationVariants = {
   },
 };
 
-function DebugComponent(props: { isOpen: boolean; deb: any; setOpen: (o: boolean) => void }) {
-  const { isOpen, setOpen, deb } = props;
+function DebugComponent(props:
+  { nData: {noclip: boolean};
+    setNoclip: (value: any) => void;
+    isOpen: boolean;
+    deb: any;
+    setOpen: (value: boolean) => void }) {
+  const {
+    isOpen, setOpen, deb, nData, setNoclip,
+  } = props;
   return (
     <Container
       style={{
@@ -127,7 +134,15 @@ function DebugComponent(props: { isOpen: boolean; deb: any; setOpen: (o: boolean
           setOpen(!isOpen);
         }}
       >
-        toggle open
+        toggle menu ui
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          setNoclip({ noclip: !nData.noclip, speed: 2 });
+        }}
+      >
+        toggle noclip ui
       </button>
 
       <div style={{ overflowY: 'scroll', height: 'calc(100% - 70px)' }}>
@@ -227,7 +242,15 @@ const Root = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      {debug && <DebugComponent isOpen={openState.isOpen} setOpen={handleSetOpen} deb={deb} />}
+      {debug && (
+      <DebugComponent
+        setNoclip={setNoclip}
+        nData={noclip}
+        isOpen={openState.isOpen}
+        setOpen={handleSetOpen}
+        deb={deb}
+      />
+      )}
       <Noclip data={noclip} />
 
       <motion.div
@@ -278,7 +301,7 @@ const Root = () => {
           <Container
             onClick={closeSecondMenu}
             elevation={4}
-            sx={{ borderRadius: '12px' }}
+            sx={{ borderRadius: '12px', zIndex: 4 }}
           >
             <CardWrapper />
           </Container>
