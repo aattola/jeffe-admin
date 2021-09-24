@@ -86,44 +86,36 @@ function Weapon() {
             ];
           })}
         </Select>
-      </FormControl>
-
-      <Grid>
-        <button
-          style={{
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'center',
-          }}
-          onClick={() => handleSpawn()}
-          type="button"
-          className="block red"
-        >
-          {loading && <Loader size={15} />}
-          Give
-        </button>
-
         <TextField
+          style={{ marginTop: 10, marginBottom: 10 }}
           value={bullets}
           onChange={(e) => setBullets((e.target.value))}
           label="Bullets"
-          size="small"
+        // size="small"
           type="number"
           InputLabelProps={{
             shrink: true,
           }}
         />
-      </Grid>
+      </FormControl>
 
       <button
-        style={{
-          display: 'flex',
-          gap: '10px',
-          alignItems: 'center',
-        }}
-        onClick={() => removeWeapons()}
+        style={{ marginRight: 5 }}
+        onClick={() => handleSpawn()}
         type="button"
         className="block red"
+      >
+        {loading && <Loader size={15} />}
+        Give
+      </button>
+      {/* <Grid> */}
+
+      {/* </Grid> */}
+
+      <button
+        onClick={() => removeWeapons()}
+        type="button"
+        className="btn block inverted"
       >
         Remove weapons
       </button>
