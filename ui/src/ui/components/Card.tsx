@@ -25,6 +25,7 @@ import 'react-color-palette/lib/css/styles.css';
 import PlayerPicker from './PlayerPicker';
 import Weapon from './Weapon';
 import NoclipSettings from './Settings/Noclip';
+import SettingsMenuBuilder from './SettingsMenuBuilder';
 
 const Topbar = styled.div`
   //border: 1px solid rgb(251 251 251 / 15%);
@@ -185,6 +186,8 @@ function CardWrapper() {
           <Divider />
           <SettingsContainer>
             <ErrorBoundary>
+
+              <SettingsMenuBuilder />
 
               {AccordionOptions.map((accordion) => (
                 <Accordion TransitionProps={{ unmountOnExit: true }} key={accordion.title}>

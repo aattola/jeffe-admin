@@ -59,7 +59,7 @@ const SecondContainer = styled.div`
 debugData([
   {
     action: 'setVisible',
-    data: false,
+    data: true,
   },
 ]);
 
