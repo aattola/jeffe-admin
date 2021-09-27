@@ -6,15 +6,17 @@ import './weather';
 import './hideFrame';
 import './time';
 import { menuOpen, SendReactMessage, toggleNuiFrame } from './menuState';
-import CarManager from './car';
-import MenuManager from './menu';
-import WeaponManager from './Weapon';
-import NoclipManager from './noclip';
+import VehicleManager from './Managers/Vehicle';
+import MenuManager from './Managers/Menu';
+import WeaponManager from './Managers/Weapon';
+import NoclipManager from './Managers/Noclip';
+import KeybindManager from './Managers/Keybinds';
 
-CarManager.getInstance();
+VehicleManager.getInstance();
 MenuManager.getInstance();
 WeaponManager.getInstance();
 NoclipManager.getInstance();
+KeybindManager.getInstance();
 
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -33,10 +35,3 @@ RegisterCommand('devmode', (source: any, args: any) => {
   if (!args[0]) return;
   SendReactMessage('debug', args[0]);
 }, false);
-
-setTick(async () => {
-  // await Delay(10)
-  if (IsControlJustPressed(1, 288)) {
-    toggleNuiFrame(!menuOpen);
-  }
-});

@@ -1,6 +1,6 @@
 import Cfx from 'fivem-js';
-import { menuOpen, toggleNuiFrame } from './menuState';
-import { emitNetPromise } from '../../shared/events';
+import { menuOpen, toggleNuiFrame } from '../menuState';
+import { emitNetPromise } from '../../../shared/events';
 
 RegisterNuiCallbackType('giveWeapon');
 RegisterNuiCallbackType('removeWeapons');

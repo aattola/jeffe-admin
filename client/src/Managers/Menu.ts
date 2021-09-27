@@ -1,5 +1,5 @@
-import { menuOpen, toggleNuiFrame } from './menuState';
-import { emitNetPromise } from '../../shared/events';
+import { menuOpen, toggleNuiFrame } from '../menuState';
+import { emitNetPromise } from '../../../shared/events';
 
 RegisterNuiCallbackType('getTargets');
 
