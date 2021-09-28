@@ -20,14 +20,12 @@ interface Player {
 class MenuStateStore {
   target: Player| null = null
 
+  self: Player | null = null
+
   players: Player[] = []
 
   constructor() {
     makeAutoObservable(this);
-  }
-
-  setTarget(targetId: number) {
-    // fetchNui({resource: "ok", eventName: "ok"});
   }
 
   async getPlayers() {
@@ -39,6 +37,7 @@ class MenuStateStore {
     playersArray.forEach((player: Player) => {
       if (player.guid === youAreThisGuidSmile) {
         this.target = player;
+        this.self = player;
       }
     });
 

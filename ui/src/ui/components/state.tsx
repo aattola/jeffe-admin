@@ -49,7 +49,7 @@ const shouldMenuBeOpen = selector({
 
     return { open: false };
   },
-  set: ({ get, set }, newValue) => {
+  set: ({ set }, newValue) => {
     const value = newValue as boolean;
     set(secondMenu, { open: value, components: [] });
     set(errorState, value);

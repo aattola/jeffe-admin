@@ -30,9 +30,6 @@ module.exports = {
           before: {
             include: [path.resolve(buildPath)],
           },
-          watch: {
-            include: [path.resolve(buildPath)],
-          },
         }),
       ];
 

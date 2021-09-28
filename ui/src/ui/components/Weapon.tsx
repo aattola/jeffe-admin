@@ -1,30 +1,15 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 
 import {
-  FormControl, IconButton, InputLabel, ListSubheader,
-  MenuItem, Select, SelectChangeEvent, TextField, Typography,
+  FormControl, InputLabel, ListSubheader,
+  MenuItem, Select, SelectChangeEvent, TextField,
 } from '@mui/material';
 
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
-import menuState from './state/MenuState';
 import { Weapons } from './ObjectConstants';
 import Loader from './Loader';
 import { fetchNui } from '../utils/fetchNui';
-
-const TimeButtons = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  border: 2px solid #fffff0;
-  //grid-gap: 10px;
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-  margin-top: 10px;
-`;
 
 const Subheader = styled(ListSubheader)`
   && {
@@ -58,7 +43,7 @@ function Weapon() {
     if (!weapon) return;
     setLoading(true);
     await fetchNui('giveWeapon', { weaponHash: weapon, bullets })
-      .catch((err) => setLoading(false));
+      .catch(() => setLoading(false));
     setLoading(false);
   };
 

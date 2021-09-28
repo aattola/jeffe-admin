@@ -2,27 +2,22 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   FormControl,
   IconButton,
-  InputBase,
   InputLabel,
   ListItemIcon, ListItemText,
   Menu,
   MenuItem,
-  OutlinedInput,
   Select,
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 
 import React, { useEffect, useState } from 'react';
-import styledd from '@emotion/styled';
 import styled from 'styled-components';
 import NoclipSettings from './Settings/Noclip';
 import Car from './Car';
@@ -258,13 +253,11 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; }) {
 }
 
 function AccordionComponent() {
-  const [binds, setBinds] = useState([]);
   useEffect(() => {
     async function run() {
       const [data, err] = await asyncWrapper(fetchNui('bindings'));
       if (err) return;
-
-      console.log('Dataa', data);
+      console.log('Bind data', data);
     }
     run();
   }, []);

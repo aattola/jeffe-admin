@@ -32,6 +32,7 @@ import PlayerPicker from './PlayerPicker';
 import Weapon from './Weapon';
 import NoclipSettings from './Settings/Noclip';
 import AccordionComponent from './AccordionComponent';
+import TeleportSettings from './Settings/Teleport';
 
 const Topbar = styled.div`
   //border: 1px solid rgb(251 251 251 / 15%);
@@ -220,6 +221,18 @@ function CardWrapper() {
               {/* /> */}
 
               <NoclipSettings />
+
+              <TeleportSettings />
+
+              <button
+                onClick={() => {
+                  fetchNui('kickPlayer', { reason: 'OK client reason' });
+                }}
+                type="button"
+                className="block red"
+              >
+                KICK
+              </button>
 
               <button type="button" className="btn block inverted">
                 Fivem

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -42,7 +41,7 @@ function Weather() {
 
   const [weather, setWeather] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = useRecoilState(errorState);
+  const [, setError] = useRecoilState(errorState);
 
   const handleChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -52,11 +51,10 @@ function Weather() {
 
   const handleSave = async () => {
     setLoading(true);
-    const retData = await fetchNui('setWeather', { weather }).catch((err) => {
+    await fetchNui('setWeather', { weather }).catch(() => {
       setError(true);
       setLoading(false);
     });
-    console.log(retData, 'retDataa');
     setLoading(false);
   };
 

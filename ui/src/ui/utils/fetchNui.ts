@@ -65,8 +65,6 @@ export async function fetchNui<T = any>(
 
     return respFormatted;
   } catch (err) {
-    console.log('[fetchNUI] ', err);
-
     const msg = {
       error: true,
       err,
