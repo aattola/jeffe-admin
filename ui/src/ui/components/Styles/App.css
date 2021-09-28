@@ -62,6 +62,41 @@ html {
     -webkit-transition: none;
     -o-transition: none;
     transition: none;
+    border: 2px solid var(--color-text-a75) !important;
+}
+
+.default:hover {
+    border: 2px solid var(--color-text-a75) !important;
+}
+
+.default {
+    display: inline-block;
+    padding: var(--qh) calc(var(--qh)/.68);
+    color: var(--color-text);
+    background-color: var(--color-bg-a25);
+    /*background-image: url(https://fivem.net/e6bab6e0eb003ff2ee71bc8e4330cff1.png);*/
+    background-size: 50%;
+    font-size: var(--fs08);
+    font-weight: 300;
+    font-family: var(--f1);
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    border: 2px solid transparent !important;
+    -webkit-backdrop-filter: blur(var(--blur-radius));
+    backdrop-filter: blur(var(--blur-radius));
+    cursor: pointer;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index: 0;
+    -webkit-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
 }
 
 .btn {
@@ -150,6 +185,8 @@ html {
 
 
 .red:hover{
+    border: 2px solid #f40552 !important;
+
     background-color:var(--color-accent-1-s90);
     -webkit-transition:none;
     -o-transition:none;

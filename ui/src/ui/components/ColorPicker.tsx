@@ -85,8 +85,8 @@ function ColourPicker({ type, getColor }: { type: any; getColor: any }) {
         {/* @ts-ignore */}
         <center>
           <ColorPicker
-            width={460}
-            height={228}
+            width={360}
+            height={200}
             color={color}
             hideRGB
             onChange={asetaColorThrottle}

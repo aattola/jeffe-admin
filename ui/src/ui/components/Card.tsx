@@ -3,29 +3,35 @@ import styled from 'styled-components';
 import styledd from '@emotion/styled';
 import Divider from '@mui/material/Divider';
 import {
-  Typography,
-  IconButton,
   Accordion,
+  AccordionDetails,
   AccordionSummary,
-  AccordionDetails, InputLabel, MenuItem, FormControl, NativeSelect, InputBase, Select,
+  Checkbox,
+  FormControl,
+  IconButton,
+  InputBase,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useRecoilState } from 'recoil';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { ColorPicker, useColor } from 'react-color-palette';
 import Weather from './Weather';
 import { fetchNui } from '../utils/fetchNui';
 import Time from './Time';
 import ErrorBoundary from './ErrorBoundary';
 import Car from './Car';
-import { errorState, secondMenu } from './state';
+import { secondMenu } from './state';
 
 import 'react-color-palette/lib/css/styles.css';
 import PlayerPicker from './PlayerPicker';
 import Weapon from './Weapon';
 import NoclipSettings from './Settings/Noclip';
-import SettingsMenuBuilder from './SettingsMenuBuilder';
+import AccordionComponent from './AccordionComponent';
 
 const Topbar = styled.div`
   //border: 1px solid rgb(251 251 251 / 15%);
@@ -116,37 +122,17 @@ function Kissa() {
   );
 }
 
-const AccordionOptions = [
-  {
-    title: 'Testi #1',
-    bind: 'emt vie',
-    desc: 'emt totakaa vie',
-    components: [Kissa],
-  },
-  {
-    title: 'Testi #13',
-    bind: 'emt vie3',
-    desc: 'emt 3',
-    components: [NoclipSettings],
-  },
-  {
-    title: 'Testi #Car',
-    bind: 'emt vie3',
-    desc: 'emt 3',
-    components: [Car],
-  },
-  {
-    title: 'Testi #Weather',
-    bind: 'emt vie3',
-    desc: 'emt 3',
-    components: [Weather],
-  },
-  {
-    title: 'Testi #Time',
-    bind: 'emt vie3',
-    desc: 'emt 3',
-    components: [Time],
-  },
+const names = [
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder',
 ];
 
 function CardWrapper() {
@@ -154,6 +140,38 @@ function CardWrapper() {
   const [selected, setSelected] = useState('');
   const [state, setState] = useRecoilState(secondMenu);
   // const [color, setColor] = useColor('rgb', { r: '1', g: '1', b: '1' });
+
+  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a the stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const ITEM_HEIGHT = 12;
+  const ITEM_PADDING_TOP = 4;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 8.5 + ITEM_PADDING_TOP,
+        width: 150,
+      },
+    },
+  };
 
   return (
     <Container>
@@ -187,44 +205,9 @@ function CardWrapper() {
           <SettingsContainer>
             <ErrorBoundary>
 
-              <SettingsMenuBuilder />
+              {/* <SettingsMenuBuilder /> */}
 
-              {AccordionOptions.map((accordion) => (
-                <Accordion TransitionProps={{ unmountOnExit: true }} key={accordion.title}>
-                  <AccordionSummary sx={{ display: 'flex', alignItems: 'center' }} expandIcon={<ExpandMoreIcon />} id="paneeli-emt">
-                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                      {accordion.title}
-                    </Typography>
-
-                    {/* <Select */}
-                    {/*  styles={customStyles} */}
-                    {/*  isSearchable={false} */}
-                    {/*  options={[ */}
-                    {/*    { value: 'chocolate', label: 'Chocolate' }, */}
-                    {/*    { value: 'strawberry', label: 'Strawberry' }, */}
-                    {/*    { value: 'vanilla', label: 'Vanilla' }, */}
-                    {/*  ]} */}
-                    {/* /> */}
-                    <FormControl sx={{ m: 1, padding: 0, margin: 0 }} variant="standard">
-                      <Select
-                        value={10}
-                        input={<BootstrapInput />}
-                      >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {(accordion.components || []).map((Component: any, i: number) => (
-                      <span key={i}>
-                        <Component />
-                      </span>
-                    ))}
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+              <AccordionComponent />
 
               <Typography>Morjens asetuksia tos</Typography>
               {/* <ColorPicker */}

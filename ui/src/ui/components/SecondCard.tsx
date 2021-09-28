@@ -45,7 +45,7 @@ function CardWrapper() {
   const [selected, setSelected] = useState('');
   const [openState, setOpen] = useRecoilState<any | any>(shouldMenuBeOpen);
 
-  console.log('OPEN STATE', openState);
+  // console.log('OPEN STATE', openState);
 
   return (
     <Container>

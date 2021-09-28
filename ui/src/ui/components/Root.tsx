@@ -147,17 +147,22 @@ function DebugComponent(props:
 
       <div style={{ overflowY: 'scroll', height: 'calc(100% - 70px)' }}>
         {deb.map((debugThing: any, i: number) => {
-          console.log(debugThing);
           if (debugThing.error) {
             return (
               <div
                 style={{ marginBottom: 10, border: '2px solid black' }}
                 key={i}
               >
+                <p style={{ margin: '4px' }}>
+                  Event:
+                  {' '}
+                  {debugThing.eventName}
+                </p>
                 <p style={{ margin: '4px' }}>Request:</p>
                 <code>{JSON.stringify(debugThing.data)}</code>
                 <br />
-                <p style={{ margin: '4px' }}>Response: Error</p>
+                <p style={{ margin: '4px' }}>Response:</p>
+                <code>{JSON.stringify(debugThing.response)}</code>
               </div>
             );
           }
