@@ -21,6 +21,7 @@
         "@typescript-eslint"
       ],
     "rules": {
+      "no-plusplus": "off",
       "class-methods-use-this": "off",
       "no-console": "off",
       "import/no-mutable-exports": "off",

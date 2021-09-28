@@ -11,12 +11,14 @@ import MenuManager from './Managers/Menu';
 import WeaponManager from './Managers/Weapon';
 import NoclipManager from './Managers/Noclip';
 import KeybindManager from './Managers/Keybinds';
+import ClientManager from './Managers/Client';
 
 VehicleManager.getInstance();
 MenuManager.getInstance();
 WeaponManager.getInstance();
 NoclipManager.getInstance();
 KeybindManager.getInstance();
+ClientManager.getInstance();
 
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
