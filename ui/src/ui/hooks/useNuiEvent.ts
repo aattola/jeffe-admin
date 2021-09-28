@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { MutableRefObject, useEffect, useRef } from 'react';
 
 interface NuiMessageData<T = unknown> {
