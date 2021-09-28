@@ -45,9 +45,28 @@ export async function fetchNui<T = any>(
 
   const resourceName = resolveResourceName(eventName);
 
-  const resp = await fetch(`https://${resourceName}/${eventName}`, options);
+  try {
+    const resp = await fetch(`https://${resourceName}/${eventName}`, options);
 
-  const respFormatted = await resp.json().catch((err) => {
+    const respFormatted = await resp.json();
+
+    // @ts-ignore
+    const requestCopy = [...window.debugRequests];
+    requestCopy.push({
+      resourceName,
+      eventName,
+      data: reqData,
+      response: respFormatted,
+      error: false,
+    });
+
+    // @ts-ignore
+    window.debugRequests = requestCopy;
+
+    return respFormatted;
+  } catch (err) {
+    console.log('[fetchNUI] ', err);
+
     const msg = {
       error: true,
       err,
@@ -59,7 +78,7 @@ export async function fetchNui<T = any>(
     requestCopy2.push({
       resourceName,
       eventName,
-      data,
+      data: reqData,
       response: msg,
       error: true,
     });
@@ -68,21 +87,7 @@ export async function fetchNui<T = any>(
     window.debugRequests = requestCopy2;
 
     // @ts-ignore
-    return msg;
-  });
-
-  // @ts-ignore
-  const requestCopy = [...window.debugRequests];
-  requestCopy.push({
-    resourceName,
-    eventName,
-    data,
-    response: respFormatted,
-    error: false,
-  });
-
-  // @ts-ignore
-  window.debugRequests = requestCopy;
-
-  return respFormatted;
+    throw new Error(JSON.stringify(msg));
+    // return msg;
+  }
 }

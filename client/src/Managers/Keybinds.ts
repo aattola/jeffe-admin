@@ -1,5 +1,9 @@
 import Cfx from 'fivem-js';
 import { menuOpen, toggleNuiFrame } from '../menuState';
+import { emitNetPromise } from '../../../shared/events';
+
+RegisterNuiCallbackType('bind');
+RegisterNuiCallbackType('bindings');
 
 class KeybindManager {
   protected static instance: KeybindManager;
@@ -14,11 +18,53 @@ class KeybindManager {
 
   keymaps = [
     {
-      command: 'openMenuKeybind',
-      desc: 'Open JEFFe-Admin Menu',
-      defaultKey: 'F1',
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_1',
+      desc: 'Bind spot 1',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_2',
+      desc: 'Bind spot 2',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_3',
+      desc: 'Bind spot 3',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_4',
+      desc: 'Bind spot 4',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_5',
+      desc: 'Bind spot 5',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_6',
+      desc: 'Bind spot 6',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_7',
+      desc: 'Bind spot 7',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_8',
+      desc: 'Bind spot 8',
+      defaultKey: 'F24',
+    },
+    {
+      command: 'JEFFE-ADMIN-INTERNAL-BIND_9',
+      desc: 'Bind spot 9',
+      defaultKey: 'F24',
     },
   ]
+
+  bindmap: {internalBind: number, event: string, eventData: any}[] = []
 
   registerCommands(): void {
     // todo: commands
@@ -30,9 +76,17 @@ class KeybindManager {
       },
       false,
     );
+
+    this.keymaps.forEach((key) => {
+      RegisterCommand(key.command, () => {
+        this.handleCommand(key.command);
+      }, false);
+    });
   }
 
   removeSuggestions(): void {
+    emit('chat:removeSuggestion', '/openMenuKeybind');
+
     this.keymaps.forEach((key) => {
       emit('chat:removeSuggestion', `/${key.command}`);
     });
@@ -46,10 +100,50 @@ class KeybindManager {
     });
   }
 
+  handleCommand(command: string) {
+    const [_, number] = command.split('_');
+
+    this.bindmap.forEach(async (bind) => {
+      if (bind.internalBind !== Number(number)) return;
+      await emitNetPromise(bind.event, bind.eventData);
+    });
+  }
+
+  handleBind(
+    data: {bindSpot: number, event: string, data: string}, cb: (retData: any) => void,
+  ): void {
+    if (!data.event) {
+      cb({ ok: false, error: 'Event is not present in request.' });
+      return;
+    }
+
+    // TODO: tallenna tää johonkin pätevään
+    this.bindmap.push({
+      internalBind: data.bindSpot,
+      event: data.event,
+      eventData: data.data,
+    });
+
+    cb({ ok: true });
+  }
+
+  bindings(
+    data: any,
+    cb: (responseData: any) => void,
+  ): void {
+    // todo: oikeasta paikasta hae bindit
+    cb({ ok: true, bindings: this.bindmap });
+  }
+
   constructor() {
     this.registerCommands();
     this.registerKeymappings();
-    this.removeSuggestions();
+    setTimeout(() => {
+      this.removeSuggestions();
+    }, 250);
+
+    on('__cfx_nui:bind', (data: any, cb: (responseData: any) => void) => this.handleBind(data, cb));
+    on('__cfx_nui:bindings', (data: any, cb: (responseData: any) => void) => this.bindings(data, cb));
   }
 }
 

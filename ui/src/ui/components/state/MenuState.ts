@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { makeAutoObservable } from 'mobx';
 import { fetchNui } from '../../utils/fetchNui';
+import asyncWrapper from '../../utils/asyncWrapper';
 
 interface Player {
   guid: string
@@ -30,7 +31,10 @@ class MenuStateStore {
   }
 
   async getPlayers() {
-    const { players: playersArray, youAreThisGuidSmile } = await fetchNui('getTargets');
+    const [data, error] = await asyncWrapper(fetchNui('getTargets'));
+    if (error) return;
+
+    const { players: playersArray, youAreThisGuidSmile } = data;
 
     playersArray.forEach((player: Player) => {
       if (player.guid === youAreThisGuidSmile) {
@@ -40,7 +44,6 @@ class MenuStateStore {
 
     this.players = playersArray;
   }
-  // getTargets
 }
 
 const menuState = new MenuStateStore();
