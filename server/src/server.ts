@@ -40,6 +40,8 @@ onNetPromise('jeffe-admin:giveWeapon', (data: {weaponHash: string, bullets: numb
   cb({ ok: true });
 });
 
+// TODO: PERMS
+
 onNetPromise('jeffe-admin:getPlayers', (data, cb) => {
   console.time('players');
   const players = getPlayers();
