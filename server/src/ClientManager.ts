@@ -31,7 +31,7 @@ class ServerClientManager {
   }
 
   async handleKick(data: {target: any, reason: string}, cb: (callbackData: any) => void) {
-    const { reason = 'We forgot why you got kicked.', target } = data;
+    const { reason, target } = data;
     // todo: perms
     const player = target.id;
     DropPlayer(player, reason);

@@ -6,10 +6,10 @@ import Select from '@mui/material/Select';
 
 import { Typography } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { fetchNui } from '../utils/fetchNui';
-import Loader from './Loader';
-import { BootstrapInput } from './CustomInput';
-import { errorState } from './state';
+import { fetchNui } from '../../utils/fetchNui';
+import Loader from '../Loader';
+import { BootstrapInput } from '../CustomInput';
+import { errorState } from '../state';
 
 const MenuProps = {
   PaperProps: {

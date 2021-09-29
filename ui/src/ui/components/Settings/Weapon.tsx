@@ -7,9 +7,9 @@ import {
 } from '@mui/material';
 
 import styled from 'styled-components';
-import { Weapons } from './ObjectConstants';
-import Loader from './Loader';
-import { fetchNui } from '../utils/fetchNui';
+import { Weapons } from '../ObjectConstants';
+import Loader from '../Loader';
+import { fetchNui } from '../../utils/fetchNui';
 
 const Subheader = styled(ListSubheader)`
   && {

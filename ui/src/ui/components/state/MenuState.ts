@@ -24,11 +24,20 @@ class MenuStateStore {
 
   players: Player[] = []
 
+  binds = []
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  async getPlayers() {
+  async fetchBinds() {
+    const [data, err] = await asyncWrapper(fetchNui('bindings'));
+    if (err) return;
+
+    this.binds = data.bindings;
+  }
+
+  async fetchPlayers() {
     const [data, error] = await asyncWrapper(fetchNui('getTargets'));
     if (error) return;
 

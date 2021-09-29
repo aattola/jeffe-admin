@@ -1,4 +1,5 @@
 import { toJS } from 'mobx';
+import toast from 'react-hot-toast';
 import menuState from '../components/state/MenuState';
 
 type EventName = {resource: string; eventName: string} | string
@@ -27,65 +28,76 @@ export async function fetchNui<T = any>(
   eventName: EventName,
   data?: any,
 ): Promise<T> {
-  let reqData = { ...data };
-  if (menuState.target?.name) {
-    reqData = {
-      ...reqData,
-      target: toJS(menuState.target),
-    };
-  }
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    let reqData = { ...data };
+    if (menuState.target?.name) {
+      reqData = {
+        ...reqData,
+        target: toJS(menuState.target),
+      };
+    }
 
-  const options = {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify(reqData),
-  };
-
-  const resourceName = resolveResourceName(eventName);
-
-  try {
-    const resp = await fetch(`https://${resourceName}/${eventName}`, options);
-
-    const respFormatted = await resp.json();
-
-    // @ts-ignore
-    const requestCopy = [...window.debugRequests];
-    requestCopy.push({
-      resourceName,
-      eventName,
-      data: reqData,
-      response: respFormatted,
-      error: false,
-    });
-
-    // @ts-ignore
-    window.debugRequests = requestCopy;
-
-    return respFormatted;
-  } catch (err) {
-    const msg = {
-      error: true,
-      err,
-      errorMsgForDev: `YOU PROBABLY FORGOT TO EXECUTE CB FUNCTION OR REGISTER EVENT: ${eventName}`,
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(reqData),
     };
 
-    // @ts-ignore
-    const requestCopy2 = [...window.debugRequests];
-    requestCopy2.push({
-      resourceName,
-      eventName,
-      data: reqData,
-      response: msg,
-      error: true,
-    });
+    const resourceName = resolveResourceName(eventName);
 
-    // @ts-ignore
-    window.debugRequests = requestCopy2;
+    try {
+      const resp = await fetch(`https://${resourceName}/${eventName}`, options);
 
-    // @ts-ignore
-    throw new Error(JSON.stringify(msg));
+      const respFormatted = await resp.json();
+
+      if (!respFormatted.ok) {
+        reject(respFormatted);
+        return;
+      }
+      // @ts-ignore
+      const requestCopy = [...window.debugRequests];
+      requestCopy.push({
+        resourceName,
+        eventName,
+        data: reqData,
+        response: respFormatted,
+        error: false,
+      });
+
+      // @ts-ignore
+      window.debugRequests = requestCopy;
+
+      resolve(respFormatted);
+    } catch (err) {
+      const msg = {
+        error: true,
+        err,
+        errorMsgForDev: `YOU PROBABLY FORGOT TO EXECUTE CB FUNCTION OR REGISTER EVENT: ${eventName}`,
+      };
+
+      // @ts-ignore
+      const requestCopy2 = [...window.debugRequests];
+      requestCopy2.push({
+        resourceName,
+        eventName,
+        data: reqData,
+        response: msg,
+        error: true,
+      });
+
+      // @ts-ignore
+      window.debugRequests = requestCopy2;
+
+      if (process.env.NODE_ENV === 'development') {
+        toast.error(`Error failed to fetch: ${eventName}`);
+      }
+      reject(msg);
+      // @ts-ignore
+      throw new Error(JSON.stringify(msg));
     // return msg;
-  }
+    }
+  });
 }

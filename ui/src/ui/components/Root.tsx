@@ -6,23 +6,19 @@ import './Styles/ColorPicker.css';
 import styled from 'styled-components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Card } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { observer } from 'mobx-react';
 
+import { Toaster } from 'react-hot-toast';
 import { useNuiEvent } from '../hooks/useNuiEvent';
 import { debugData } from '../utils/debugData';
 import { useExitListener } from '../hooks/useExitListener';
 import CardWrapper from './Card';
-import {
-  debug as debugState,
-  notificationState,
-  shouldMenuBeOpen,
-} from './state';
-import SecondCard from './SecondCard';
-import NotificationCard from './Notifications/NotificationCard';
+import { debug as debugState, notificationState, shouldMenuBeOpen } from './state';
 import openState from './state/OpenState';
 import Noclip from './Dialogs/Noclip';
+import { DebugComponent } from './DebugComponent';
 
 const darkTheme = createTheme({
   palette: {
@@ -41,7 +37,16 @@ const Container = styled(Card)`
   width: 540px;
 
   height: calc(100% - 80px);
+  position: relative;
   /* //height: 100%; */
+`;
+
+const ContainerWithNoStyles = styled.div`
+  margin: 40px;
+  overflow: initial !important;
+  width: 540px;
+  height: calc(100% - 80px);
+  position: relative;
 `;
 
 const Huutista = styled.div`
@@ -94,111 +99,31 @@ const secondVariants = {
 const NotificationVariants = {
   visible: {
     opacity: 1,
-    x: 0,
+    x: 30,
     zIndex: 123,
     height: '100%',
   },
   hidden: {
-    opacity: 0,
-    x: 100,
+    opacity: 1,
+    x: 600,
     zIndex: 0,
     height: '100%',
     pointerEvents: 'none',
   },
 };
 
-function DebugComponent(props:
-  { nData: {noclip: boolean};
-    setNoclip: (value: any) => void;
-    isOpen: boolean;
-    deb: any;
-    setOpen: (value: boolean) => void }) {
-  const {
-    isOpen, setOpen, deb, nData, setNoclip,
-  } = props;
-  return (
-    <Container
-      style={{
-        border: '2px solid black',
-        borderRadius: 8,
-        padding: 15,
-        position: 'absolute',
-        color: 'black',
-        background: 'white',
-      }}
-    >
-      <p>Debug nappeja</p>
-      <button
-        type="button"
-        onClick={() => {
-          setOpen(!isOpen);
-        }}
-      >
-        toggle menu ui
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          setNoclip({ noclip: !nData.noclip, speed: 2 });
-        }}
-      >
-        toggle noclip ui
-      </button>
-
-      <div style={{ overflowY: 'scroll', height: 'calc(100% - 70px)' }}>
-        {deb.map((debugThing: any, i: number) => {
-          if (debugThing.error) {
-            return (
-              <div
-                style={{ marginBottom: 10, border: '2px solid black' }}
-                key={i}
-              >
-                <p style={{ margin: '4px' }}>
-                  Event:
-                  {' '}
-                  {debugThing.eventName}
-                </p>
-                <p style={{ margin: '4px' }}>Request:</p>
-                <code>{JSON.stringify(debugThing.data)}</code>
-                <br />
-                <p style={{ margin: '4px' }}>Response:</p>
-                <code>{JSON.stringify(debugThing.response)}</code>
-              </div>
-            );
-          }
-          return (
-            <div
-              style={{ marginBottom: 10, border: '2px solid black' }}
-              key={i}
-            >
-              <p style={{ margin: '4px' }}>
-                Event:
-                {debugThing.eventName}
-              </p>
-              <p style={{ margin: '4px' }}>Request:</p>
-              <code>{JSON.stringify(debugThing.data)}</code>
-              <br />
-
-              <p style={{ margin: '4px' }}>Response:</p>
-              <code>{JSON.stringify(debugThing.response)}</code>
-            </div>
-          );
-        })}
-      </div>
-    </Container>
-  );
-}
-
 const Root = () => {
   const [isSecondOpen, setSecondOpen] = useRecoilState<any>(shouldMenuBeOpen);
   const [notif] = useRecoilState(notificationState);
   const [debug, setDebug] = useRecoilState(debugState);
   const [deb, setDeb] = useState([]);
+  const [elper, setElper] = useState(true);
   const [noclip, setNoclip] = useState({ noclip: false, speed: 0, zoom: false });
 
   useNuiEvent('setVisible', (data: boolean) => {
     // This is our handler for the setVisible action.
     openState.isOpen = data;
+    setElper(false);
   });
 
   useNuiEvent('setNoclip', (data: any) => {
@@ -210,7 +135,6 @@ const Root = () => {
   useNuiEvent('debug', (data: boolean) => {
     // This is our handler for the setVisible action.
 
-    console.log('setDebug', data);
     setDebug(data);
   });
 
@@ -220,6 +144,7 @@ const Root = () => {
 
   function handleSetOpen(o: boolean) {
     openState.isOpen = o;
+    setElper(false);
   }
 
   function closeSecondMenu() {
@@ -258,60 +183,68 @@ const Root = () => {
       )}
       <Noclip data={noclip} />
 
-      <motion.div
-        variants={variants}
-        initial={{ x: 1000 }}
-        transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-        animate={openState.isOpen ? 'visible' : 'hidden'}
-      >
-        <Huutista>
-          {/* NOTIF */}
+      <Huutista>
+        {/* NOTIF */}
 
-          <SecondContainer style={{ height: 'auto' }}>
-            <motion.div
-              variants={NotificationVariants as any}
-              initial={{ x: 1000, zIndex: '0' } as any}
-              transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
-              animate={notif[0] ? 'visible' : 'hidden'}
-            >
-              <Container
-                style={{ height: 'auto', width: '380px' }}
-                elevation={14}
-                sx={{ borderRadius: '12px', marginRight: '0px' }}
-              >
-                <NotificationCard />
-              </Container>
-            </motion.div>
-          </SecondContainer>
-
-          {/* SECOND CARD */}
-          <SecondContainer>
-            <motion.div
-              style={{ position: 'fixed', transform: 'translate(-80px, 0px)' }}
-              variants={secondVariants as any}
-              initial={{ x: 1000, zIndex: '0' } as any}
-              transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
-              animate={isSecondOpen.open ? 'visible' : 'hidden'}
-            >
-              <Container
-                // style={{ transform: 'translate(-80px, 0px)' }}
-                elevation={14}
-                sx={{ borderRadius: '12px', marginRight: '0px' }}
-              >
-                <SecondCard />
-              </Container>
-            </motion.div>
-          </SecondContainer>
-
-          <Container
-            onClick={closeSecondMenu}
-            elevation={4}
-            sx={{ borderRadius: '12px', zIndex: 4 }}
+        <SecondContainer style={{ height: 'auto' }}>
+          <motion.div
+            variants={NotificationVariants as any}
+            initial={{ x: 1000, zIndex: '0' } as any}
+            transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
+            animate={openState.isOpen ? 'visible' : 'hidden'}
           >
-            <CardWrapper />
-          </Container>
-        </Huutista>
-      </motion.div>
+            <Container
+              style={{ height: 'auto', width: '380px' }}
+              elevation={0}
+              sx={{ borderRadius: '12px', marginRight: '0px' }}
+            >
+              {/* <NotificationCard /> */}
+              <Toaster
+                position="top-right"
+                containerStyle={{
+                  inset: '0px',
+                }}
+                toastOptions={{
+                  style: {
+                    borderRadius: '12px',
+                    background: '#333',
+                    color: '#fff',
+                  },
+                }}
+              />
+            </Container>
+          </motion.div>
+        </SecondContainer>
+
+        <AnimatePresence
+          exitBeforeEnter
+          onExitComplete={() => {
+            setElper(true);
+          }}
+        >
+          {openState.isOpen && (
+            <motion.div
+              transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+              initial={{ opacity: 0, x: 1000 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 1000 }}
+            >
+              <Container
+                onClick={closeSecondMenu}
+                elevation={4}
+                sx={{ borderRadius: '12px', zIndex: 6 }}
+              >
+                <CardWrapper />
+              </Container>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {elper && (
+          <ContainerWithNoStyles>
+            <div />
+          </ContainerWithNoStyles>
+        )}
+      </Huutista>
     </ThemeProvider>
   );
 };

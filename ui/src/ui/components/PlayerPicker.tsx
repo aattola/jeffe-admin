@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Typography,
+  FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent,
 } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
+import PropTypes from 'prop-types';
 import menuState from './state/MenuState';
-
-const TimeButtons = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  border: 2px solid #fffff0;
-  //grid-gap: 10px;
-`;
 
 const Grid = styled.div`
   display: grid;
@@ -48,7 +42,7 @@ const MenuProps = {
 };
 
 const container = {
-  hidden: { height: 25, overflow: 'hidden' },
+  hidden: { height: '25px', overflow: 'hidden' },
   show: {
     height: 'auto',
     overflow: 'hidden',
@@ -56,11 +50,11 @@ const container = {
 };
 const item = {
   hidden: {
-    height: 25,
+    height: '25px',
     alignItems: 'start',
   },
   show: {
-    height: 40,
+    height: '40px',
     display: 'grid',
     alignItems: 'center',
   },
@@ -73,18 +67,18 @@ const itemOpacity = {
 };
 const fontSize = {
   large: {
-    fontSize: 20,
+    fontSize: '18px',
   },
   small: {
-    fontSize: 12,
+    fontSize: '16px',
   },
 };
 
-function PlayerPicker() {
-  const [expanded, setExpanded] = useState(false);
+function PlayerPicker({ defaultExpanded = false }) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const [p, setP] = useState('');
   useEffect(() => {
-    menuState.getPlayers();
+    menuState.fetchPlayers().then(() => null);
   }, []);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -98,10 +92,11 @@ function PlayerPicker() {
 
       <motion.div
         variants={container}
+        initial={{ height: '25px', overflow: 'hidden' }}
         animate={expanded ? 'show' : 'hidden'}
         transition={{ bounce: 0.1 }}
       >
-        <motion.div variants={item} animate={expanded ? 'show' : 'hidden'}>
+        <motion.div variants={item} initial={{ height: '25px', alignItems: 'start' }} animate={expanded ? 'show' : 'hidden'}>
           <GridTitle
             onClick={() => setExpanded(!expanded)}
             style={{
@@ -150,7 +145,7 @@ function PlayerPicker() {
 
                 </Select>
               </FormControl>
-              <IconButton onClick={() => menuState.getPlayers()} size="small" sx={{ width: 56 }} aria-label="refresh">
+              <IconButton onClick={() => menuState.fetchPlayers()} size="small" sx={{ width: 56 }} aria-label="refresh">
                 <RefreshIcon />
               </IconButton>
             </div>
@@ -177,5 +172,13 @@ function PlayerPicker() {
     </>
   );
 }
+
+PlayerPicker.propTypes = {
+  defaultExpanded: PropTypes.bool,
+};
+
+PlayerPicker.defaultProps = {
+  defaultExpanded: false,
+};
 
 export default observer(PlayerPicker);

@@ -108,6 +108,10 @@ class ClientManager {
     data: any,
     cb: (responseData: any) => Promise<void>,
   ): Promise<void> {
+    if (!data.reason) {
+      cb({ ok: false, error: 'Reason missing' });
+      return;
+    }
     const resp = await emitNetPromise('jeffe-admin:kickPlayer', { target: data.target, reason: data.reason });
     cb({ ok: true, resp });
   }

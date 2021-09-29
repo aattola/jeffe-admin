@@ -1,4 +1,8 @@
-/*! CSS Used from: https://fivem.net/index.f28363b4610a50ec6a17.css */
+
+body {
+
+    user-select: none;
+}
 
 html {
     --color-bg: #161923;

@@ -14,7 +14,7 @@ module.exports = {
     //     path: path.resolve(__dirname, 'dist'),
     //   },
     // },
-    configure: (webpackConfig) => {
+    configure: (webpackConfig, ctx) => {
       // Because CEF has issues with loading source maps properly atm,
       // lets use the best we can get in line with `eval-source-map`
       if (webpackConfig.mode === 'development' && process.env.IN_GAME_DEV) {

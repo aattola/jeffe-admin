@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { RecoilRoot } from 'recoil';
 import { configure } from 'mobx';
+// import { enableLogging } from 'mobx-logger';
+import toast from 'react-hot-toast';
 import Root from './ui/components/Root';
-import reportWebVitals from './reportWebVitals';
 
 configure({
   enforceActions: 'never',
 });
+// enableLogging();
 
 ReactDOM.render(
   <RecoilRoot>

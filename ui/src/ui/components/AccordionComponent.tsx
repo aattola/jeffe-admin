@@ -19,14 +19,29 @@ import KeyboardIcon from '@mui/icons-material/Keyboard';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react';
 import NoclipSettings from './Settings/Noclip';
-import Car from './Car';
-import Weather from './Weather';
-import Time from './Time';
+import Car from './Settings/Car';
+import Weather from './Settings/Weather';
+import Time from './Settings/Time';
 import { fetchNui } from '../utils/fetchNui';
 import asyncWrapper from '../utils/asyncWrapper';
+import TeleportSettings from './Settings/Teleport';
+import KickSettings from './Settings/Kick';
+import menuState from './state/MenuState';
+import FixComponent from './Settings/Fix';
+import Weapon from './Settings/Weapon';
 
 const AccordionOptions = [
+  {
+    title: 'Spawn weapons',
+    desc: 'Weapons',
+    // event: {
+    //   event: 'jeffe-admin:toggleNoclip',
+    //   data: {},
+    // },
+    components: [Weapon],
+  },
   {
     title: 'Noclip',
     desc: 'Noclip around the town',
@@ -37,17 +52,36 @@ const AccordionOptions = [
     components: [NoclipSettings],
   },
   {
+    title: 'Teleport',
+    desc: 'tp',
+    components: [TeleportSettings],
+  },
+  {
+    title: 'Kick player',
+    desc: 'kick',
+    components: [KickSettings],
+  },
+  {
     title: 'Spawn car',
     desc: 'CAR',
     components: [Car],
   },
   {
-    title: 'Set weather',
+    title: 'Repair car',
+    desc: 'CAR',
+    event: {
+      event: 'jeffe-admin:car',
+      data: { type: 'fix' },
+    },
+    components: [FixComponent],
+  },
+  {
+    title: 'Weather',
     desc: 'emt 3',
     components: [Weather],
   },
   {
-    title: 'Set time',
+    title: 'Time',
     desc: 'time',
     components: [Time],
   },
@@ -58,14 +92,14 @@ const ButtonRow = styled.div`
   gap: 10px;
 `;
 
-function Accord(props: { accordion: typeof AccordionOptions[0]; }) {
-  const { accordion } = props;
+function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
+  const { accordion, binding } = props;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [accordionOpen, setAccordionOpen] = useState(false);
   const [bindMode, setBindMode] = useState(false);
   const open = Boolean(anchorEl);
-  const [bind, setBind] = React.useState('');
+  const [bind, setBind] = React.useState(binding?.internalBind || '0');
   const [error, setError] = React.useState('');
 
   const handleBind = (event: SelectChangeEvent) => {
@@ -106,18 +140,30 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; }) {
   }
 
   async function handleBindSave() {
-    const [data, errori] = await asyncWrapper(fetchNui('bind', { bindSpot: bind, ...accordion.event }));
+    const [, errori] = await asyncWrapper(fetchNui('bind', { bindSpot: bind, ...accordion.event }));
     if (errori) {
       const { error: err } = errori;
       setError(err);
       return;
     }
 
+    await menuState.fetchBinds();
     closeBindMode();
   }
 
   return (
-    <Accordion expanded={accordionOpen} onChange={handleChange} TransitionProps={{ unmountOnExit: true }} key={accordion.title}>
+    <Accordion
+      sx={{
+        '&.MuiAccordion-root:before': {
+          display: 'none',
+        },
+        marginBottom: '10px',
+      }}
+      expanded={accordionOpen}
+      onChange={handleChange}
+      TransitionProps={{ unmountOnExit: true }}
+      key={accordion.title}
+    >
       <AccordionSummary
         sx={{
           display: 'flex',
@@ -135,15 +181,19 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; }) {
           {accordion.title}
         </Typography>
 
-        <p
-          style={{ margin: 0 }}
-          onClick={() => {
-            setBindMode(true);
-            setAccordionOpen(true);
-          }}
-        >
-          Bound to: 1
-        </p>
+        {binding && (
+          <p
+            style={{ margin: 0 }}
+            onClick={() => {
+              setBindMode(true);
+              setAccordionOpen(true);
+            }}
+          >
+            Bound to:
+            {' '}
+            {binding.internalBind}
+          </p>
+        )}
         {/* <Select */}
         {/*  options={[ */}
         {/*    { value: 'chocolate', label: 'Chocolate' }, */}
@@ -242,9 +292,9 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; }) {
             </ButtonRow>
           </>
         ) : (accordion.components || []).map((Component: any, i: number) => (
-          <span key={i}>
+          <div style={{ marginTop: '7px' }} key={i}>
             <Component />
-          </span>
+          </div>
         ))}
 
       </AccordionDetails>
@@ -254,22 +304,18 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; }) {
 
 function AccordionComponent() {
   useEffect(() => {
-    async function run() {
-      const [data, err] = await asyncWrapper(fetchNui('bindings'));
-      if (err) return;
-      console.log('Bind data', data);
-    }
-    run();
+    menuState.fetchBinds();
   }, []);
+
+  const binds = menuState.binds.map((a: any) => a.event);
 
   return (
     <>
-      <h1>accordion</h1>
       {AccordionOptions.map((accordion) => (
-        <Accord key={accordion.title} accordion={accordion} />
+        <Accord binding={binds.indexOf(accordion.event?.event) > -1 ? menuState.binds[binds.indexOf(accordion.event?.event)] : null} key={accordion.title} accordion={accordion} />
       ))}
     </>
   );
 }
 
-export default AccordionComponent;
+export default observer(AccordionComponent);

@@ -4,6 +4,8 @@ import { observer } from 'mobx-react';
 import {
   Checkbox, FormControlLabel, FormGroup, Typography,
 } from '@mui/material';
+import toast from 'react-hot-toast';
+
 import { fetchNui } from '../../utils/fetchNui';
 import CustomSelect from '../CustomSelect';
 import { Teleports } from '../ObjectConstants';
@@ -24,13 +26,7 @@ function TeleportSettings() {
   const [checked, setChecked] = React.useState(false);
   const [value, setValue] = React.useState('');
 
-  async function handleClick() {
-    const data = await fetchNui('toggleNoclip');
-    console.log('togglettu', data.noclip);
-  }
-
   function handleValue(e: any) {
-    console.log(e);
     setValue(e);
   }
 
@@ -39,8 +35,22 @@ function TeleportSettings() {
   }
 
   async function handleTeleport() {
-    const [data, error] = await asyncWrapper(fetchNui('teleportPlayer', { safeTp: checked, to: value }));
-    console.log(data, error);
+    await toast.promise(
+      fetchNui('teleportPlayer', { safeTp: checked, to: value }),
+      {
+        loading: 'Teleporting',
+        success: (data) => 'Teleported',
+        error: (err) => `This just happened: ${err.toString()}`,
+      },
+    );
+    // const [data, error] = await asyncWrapper(fetchNui('teleportPlayer', { safeTp: checked, to: value }));
+    // if (error) {
+    //   console.log('tp error', error);
+    //   toast.error('tp error');
+    // }
+    //
+    // toast.success()
+    // const [data, error] =
   }
 
   const players = useMemo(() => menuState.players.map((player) => ({
@@ -86,7 +96,6 @@ function TeleportSettings() {
 
   return (
     <Container>
-      <Typography>Teleport:</Typography>
 
       <SelectGrid>
         <CustomSelect

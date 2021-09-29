@@ -10,11 +10,11 @@ import {
 } from '@mui/material';
 
 import styled from 'styled-components';
-import { CarConstants } from './ObjectConstants';
-import { fetchNui } from '../utils/fetchNui';
-import Loader from './Loader';
-import ColourPicker from './ColorPicker';
-import { CarPayload } from '../../../../shared/types';
+import { CarPayload } from '@jeffe/shared/types';
+import { CarConstants } from '../ObjectConstants';
+import { fetchNui } from '../../utils/fetchNui';
+import Loader from '../Loader';
+import ColourPicker from '../ColorPicker';
 
 const ComponentWrapper = styled.div`
   margin: 15px 0;
@@ -115,6 +115,12 @@ function Car() {
         <ColourPicker getColor={handleColor} type="Primary" />
         <ColourPicker getColor={handleColor} type="Secondary" />
 
+        <FormGroup style={{ marginTop: 5 }}>
+          <FormControlLabel
+            control={<Checkbox checked={checked} onChange={handleCheckbox} />}
+            label="Safe spawn"
+          />
+        </FormGroup>
         {/* <Grid> */}
         <div style={{ display: 'flex' }}>
           <button
@@ -166,55 +172,8 @@ function Car() {
           </button>
         </div>
 
-        <FormGroup style={{ marginTop: 5 }}>
-          <FormControlLabel
-            control={<Checkbox checked={checked} onChange={handleCheckbox} />}
-            label="Safe spawn"
-          />
-        </FormGroup>
-
         {/*  <TextInput value={car} onChange={(e) => setCar(e.target.value)} /> */}
         {/* </Grid> */}
-      </ComponentWrapper>
-
-      <Divider variant="middle" style={{ margin: '20px 0px' }} />
-
-      <ComponentWrapper>
-        <Typography>Fix current vehicle:</Typography>
-
-        <button
-          style={{
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'center',
-          }}
-          onClick={() => handleSave({ type: 'fix' })}
-          type="button"
-          className="block red"
-        >
-          {loading.type === 'fix' && <Loader size={15} />}
-          Fix
-        </button>
-      </ComponentWrapper>
-
-      <Divider variant="middle" style={{ margin: '20px 0px' }} />
-
-      <ComponentWrapper>
-        <Typography>Clean current vehicle:</Typography>
-
-        <button
-          style={{
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'center',
-          }}
-          onClick={() => handleSave({ type: 'clean' })}
-          type="button"
-          className="block red"
-        >
-          {loading.type === 'clean' && <Loader size={15} />}
-          Clean
-        </button>
       </ComponentWrapper>
     </>
   );

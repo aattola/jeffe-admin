@@ -1,4 +1,3 @@
-import Cfx from 'fivem-js';
 import { menuOpen, toggleNuiFrame } from '../menuState';
 import { emitNetPromise } from '../../../shared/events';
 
@@ -114,6 +113,12 @@ class KeybindManager {
   ): void {
     if (!data.event) {
       cb({ ok: false, error: 'Event is not present in request.' });
+      return;
+    }
+
+    if (data.bindSpot === 0) {
+      this.bindmap = this.bindmap.filter((bind) => bind.event !== data.event);
+      cb({ ok: true });
       return;
     }
 

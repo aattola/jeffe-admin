@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Divider from '@mui/material/Divider';
-import { Typography, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useRecoilState } from 'recoil';
 import ErrorBoundary from '../ErrorBoundary';
@@ -23,15 +23,8 @@ const SettingsContainer = styled.div`
 `;
 
 const Text = styled.h1`
-  font-family: Rubik; //'Plus Jakarta Sans'
-  margin: 0px;
+  margin: 0;
   font-size: 18px;
-`;
-
-const SettingsGrid = styled.div`
-  grid-template-rows: 1fr;
-  grid-gap: 10px;
-  display: grid;
 `;
 
 function NotificationCard() {
