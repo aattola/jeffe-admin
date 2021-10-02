@@ -1,6 +1,4 @@
-import { WeaponHash } from 'fivem-js';
-import * as Cfx from 'fivem-js';
-import { onNetPromise } from '../../shared/events';
+import { onNetPromise } from '@jeffe/shared/events';
 import { parsePlayerIdentifiers } from './utils';
 import ServerClientManager from './ClientManager';
 

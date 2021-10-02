@@ -1,5 +1,5 @@
 {
-  "name": "@jeffe/server",
+  "name": "@jeffe/app",
   "version": "1.0.0",
   "scripts": {
     "build": "webpack --mode development --color --progress",
@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@citizenfx/server": "^2.0.4517-1",
+    "@citizenfx/client": "^2.0.4517-1",
     "@types/node": "^16.9.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",

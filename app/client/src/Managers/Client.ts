@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const,no-await-in-loop,max-len */
-import { emitNetPromise } from '../../../shared/events';
-import { Delay } from '../../../shared/functions';
+import { emitNetPromise } from '@jeffe/shared/events';
+import { Delay } from '@jeffe/shared/functions';
 
 RegisterNuiCallbackType('kickPlayer');
 RegisterNuiCallbackType('teleportPlayer');

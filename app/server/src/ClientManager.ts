@@ -1,4 +1,4 @@
-import { onNetPromise } from '../../shared/events';
+import { onNetPromise } from '@jeffe/shared/events';
 
 class ServerClientManager {
   protected static instance: ServerClientManager;
