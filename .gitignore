@@ -211,3 +211,5 @@ ui/build
 ui/.idea/
 ui/.idea/*
 ui/.idea/**
+/build/
+/app/build/

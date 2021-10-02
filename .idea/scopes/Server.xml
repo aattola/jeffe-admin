@@ -1,3 +1,0 @@
-<component name="DependencyValidationManager">
-  <scope name="Server" pattern="file[jeffe-admin]:server//*||file[jeffe-admin]:shared//*" />
-</component>

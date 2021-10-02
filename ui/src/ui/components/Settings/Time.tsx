@@ -13,16 +13,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 import styled from 'styled-components';
 
-import { useRecoilState } from 'recoil';
 import { fetchNui } from '../../utils/fetchNui';
 import Loader from '../Loader';
-import { errorState } from '../state';
 
 const TimeButtons = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   border: 2px solid #fffff0;
-  //grid-gap: 10px;
+  //grid-gap: 10px; 
 `;
 
 const Grid = styled.div`
@@ -37,7 +35,6 @@ function Time() {
   const [selected, setSelected] = React.useState('');
   const [value, setValue] = React.useState(new Date('2021-01-01T24:00'));
   const states = ['Morning', 'Day', 'Evening', 'Night'];
-  const [, setError] = useRecoilState(errorState);
 
   const handleClick = (name: React.SetStateAction<string>) => {
     if (name === selected) return setSelected('');
@@ -66,7 +63,7 @@ function Time() {
     await fetchNui('setTime', {
       time: value,
     }).catch(() => {
-      setError(true);
+      console.log('kusi time req');
     });
     setLoading(false);
   };

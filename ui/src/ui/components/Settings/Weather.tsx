@@ -5,11 +5,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 import { Typography } from '@mui/material';
-import { useRecoilState } from 'recoil';
 import { fetchNui } from '../../utils/fetchNui';
 import Loader from '../Loader';
 import { BootstrapInput } from '../CustomInput';
-import { errorState } from '../state';
 
 const MenuProps = {
   PaperProps: {
@@ -41,7 +39,6 @@ function Weather() {
 
   const [weather, setWeather] = React.useState('');
   const [loading, setLoading] = React.useState(false);
-  const [, setError] = useRecoilState(errorState);
 
   const handleChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -52,7 +49,7 @@ function Weather() {
   const handleSave = async () => {
     setLoading(true);
     await fetchNui('setWeather', { weather }).catch(() => {
-      setError(true);
+      console.log('WEATGHER err');
       setLoading(false);
     });
     setLoading(false);

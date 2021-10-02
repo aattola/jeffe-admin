@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import Divider from '@mui/material/Divider';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useRecoilState } from 'recoil';
 import ErrorBoundary from '../ErrorBoundary';
-import { notificationState } from '../state';
 
 const Topbar = styled.div`
   //border: 1px solid rgb(251 251 251 / 15%);
@@ -28,33 +26,31 @@ const Text = styled.h1`
 `;
 
 function NotificationCard() {
-  const [notif, setNotif] = useRecoilState(notificationState);
-
   return (
     <Container>
       <Topbar>
         <Text>Notification</Text>
 
-        <IconButton onClick={() => setNotif([])}>
-          <CloseIcon />
-        </IconButton>
+        {/* <IconButton onClick={() => setNotif([])}> */}
+        {/*  <CloseIcon /> */}
+        {/* </IconButton> */}
       </Topbar>
 
       <Divider />
 
       <div style={{ height: 'auto' }}>
         <SettingsContainer>
-          <ErrorBoundary>
-            {notif.map((Notification: any, i: number) => (
-              <div key={i}>
-                <h3 style={{ margin: '5px 0px' }}>{Notification.title}</h3>
-                <p>{Notification.desc}</p>
-                {Notification.components.map((Component: any, i2: number) => (
-                  <Component key={i2} />
-                ))}
-              </div>
-            ))}
-          </ErrorBoundary>
+          {/* <ErrorBoundary> */}
+          {/*  {notif.map((Notification: any, i: number) => ( */}
+          {/*    <div key={i}> */}
+          {/*      <h3 style={{ margin: '5px 0px' }}>{Notification.title}</h3> */}
+          {/*      <p>{Notification.desc}</p> */}
+          {/*      {Notification.components.map((Component: any, i2: number) => ( */}
+          {/*        <Component key={i2} /> */}
+          {/*      ))} */}
+          {/*    </div> */}
+          {/*  ))} */}
+          {/* </ErrorBoundary> */}
         </SettingsContainer>
       </div>
     </Container>

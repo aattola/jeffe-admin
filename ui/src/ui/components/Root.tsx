@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Card } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRecoilState } from 'recoil';
 import { observer } from 'mobx-react';
 
 import { Toaster } from 'react-hot-toast';
@@ -15,7 +14,6 @@ import { useNuiEvent } from '../hooks/useNuiEvent';
 import { debugData } from '../utils/debugData';
 import { useExitListener } from '../hooks/useExitListener';
 import CardWrapper from './Card';
-import { debug as debugState, notificationState, shouldMenuBeOpen } from './state';
 import openState from './state/OpenState';
 import Noclip from './Dialogs/Noclip';
 import { DebugComponent } from './DebugComponent';
@@ -113,9 +111,6 @@ const NotificationVariants = {
 };
 
 const Root = () => {
-  const [isSecondOpen, setSecondOpen] = useRecoilState<any>(shouldMenuBeOpen);
-  const [notif] = useRecoilState(notificationState);
-  const [debug, setDebug] = useRecoilState(debugState);
   const [deb, setDeb] = useState([]);
   const [elper, setElper] = useState(true);
   const [noclip, setNoclip] = useState({ noclip: false, speed: 0, zoom: false });
@@ -135,7 +130,7 @@ const Root = () => {
   useNuiEvent('debug', (data: boolean) => {
     // This is our handler for the setVisible action.
 
-    setDebug(data);
+    openState.isDebugOpen = data;
   });
 
   useExitListener(() => {
@@ -147,15 +142,9 @@ const Root = () => {
     setElper(false);
   }
 
-  function closeSecondMenu() {
-    if (isSecondOpen.open) {
-      setSecondOpen(false);
-    }
-  }
-
   useEffect(() => {
     if (!(window as any).invokeNative) {
-      setDebug(true);
+      openState.isDebugOpen = true;
     }
 
     const interval = setInterval(() => {
@@ -172,14 +161,14 @@ const Root = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      {debug && (
-      <DebugComponent
-        setNoclip={setNoclip}
-        nData={noclip}
-        isOpen={openState.isOpen}
-        setOpen={handleSetOpen}
-        deb={deb}
-      />
+      {openState.isDebugOpen && (
+        <DebugComponent
+          setNoclip={setNoclip}
+          nData={noclip}
+          isOpen={openState.isOpen}
+          setOpen={handleSetOpen}
+          deb={deb}
+        />
       )}
       <Noclip data={noclip} />
 
@@ -230,7 +219,6 @@ const Root = () => {
               exit={{ opacity: 0, x: 1000 }}
             >
               <Container
-                onClick={closeSecondMenu}
                 elevation={4}
                 sx={{ borderRadius: '12px', zIndex: 6 }}
               >

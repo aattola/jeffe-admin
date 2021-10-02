@@ -4,6 +4,8 @@ import makeInspectable from 'mobx-devtools-mst';
 class OpenStateStore {
   isOpen: boolean = false
 
+  isDebugOpen: boolean = false
+
   constructor() {
     makeAutoObservable(this);
   }

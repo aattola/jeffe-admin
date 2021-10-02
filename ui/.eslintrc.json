@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "../.eslintrc.json"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -26,22 +27,12 @@
       }
     },
     "rules": {
-      "no-plusplus": "off",
-      "react/forbid-prop-types": "off",
-      "jsx-a11y/click-events-have-key-events": "off",
-      "jsx-a11y/no-noninteractive-element-interactions": "off",
       "react/destructuring-assignment": "warn",
-      "max-len": "off",
-      "class-methods-use-this": "off",
-      "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": ["error"],
+      "react/jsx-props-no-spreading": "off",
+      "react/forbid-prop-types": "off",
       "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx", ".ts"]} ],
       "react/jsx-no-bind": "off",
       "react/no-array-index-key": "off",
-      "import/prefer-default-export": "off",
-      "no-unused-vars": "warn",
-      "no-restricted-syntax": "off",
-      "react/jsx-props-no-spreading": "off",
       "import/extensions": [
         "error",
         "ignorePackages",

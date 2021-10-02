@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { RecoilRoot } from 'recoil';
 import { configure } from 'mobx';
 // import { enableLogging } from 'mobx-logger';
 import toast from 'react-hot-toast';
@@ -13,9 +12,7 @@ configure({
 // enableLogging();
 
 ReactDOM.render(
-  <RecoilRoot>
-    <Root />
-  </RecoilRoot>,
+  <Root />,
   document.getElementById('root'),
 );
 

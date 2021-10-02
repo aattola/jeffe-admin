@@ -6,13 +6,10 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useRecoilState } from 'recoil';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import toast from 'react-hot-toast';
-import Weather from './Settings/Weather';
 import { fetchNui } from '../utils/fetchNui';
 import ErrorBoundary from './ErrorBoundary';
-import { secondMenu } from './state';
 
 import 'react-color-palette/lib/css/styles.css';
 import PlayerPicker from './PlayerPicker';
@@ -41,36 +38,9 @@ const Text = styled.h1`
   font-size: 20px;
 `;
 
-function Kissa() {
-  const [kisu, orava] = useState('kissa');
-  const [state, setState] = useRecoilState(secondMenu);
-
-  return (
-    <>
-      <h1>{kisu}</h1>
-      <button type="button" onClick={() => orava('orava')}>
-        orava
-      </button>
-
-      <button
-        onClick={() => {
-          // @ts-ignore
-          setState({ open: true, components: [Weather] });
-        }}
-        type="button"
-        className="btn block inverted"
-      >
-        Avaa valikko komponentilla
-      </button>
-    </>
-  );
-}
-
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 function CardWrapper() {
-  const [, setState] = useRecoilState(secondMenu);
-
   const notify = () => {
     toast('Here is your toast.');
 
@@ -146,7 +116,7 @@ function CardWrapper() {
               <button
                 onClick={() => {
                   // @ts-ignore
-                  setState({ open: true, components: [Weather, Kissa] });
+                  alert('en tee mitään');
                 }}
                 type="button"
                 className="btn block inverted"
