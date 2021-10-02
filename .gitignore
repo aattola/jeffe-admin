@@ -213,3 +213,5 @@ ui/.idea/*
 ui/.idea/**
 /build/
 /app/build/
+
+!*/ui/.env
