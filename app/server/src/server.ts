@@ -1,31 +1,39 @@
 import { onNetPromise } from '@jeffe/shared/events';
 import { parsePlayerIdentifiers } from './utils';
 import ServerClientManager from './ClientManager';
+import ConfigManager from './ConfigManager';
+import ServerKeybindManager from './KeybindManager';
+import ServerFavoritesManager from './FavoriteManager';
 
 console.log('Hello from server');
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
+ServerKeybindManager.getInstance();
+ServerFavoritesManager.getInstance();
 ServerClientManager.getInstance();
+
+// config.readFromConfig('bruh2');
+// config.writeToConfg('kiss', 'brurava');
 
 onNetPromise('jeffe-admin:test', (data, cb) => {
   console.log('serveri dataa', data);
-  cb({ ok: true });
+  cb({ ok: true }, source);
 });
 
 onNetPromise('jeffe-admin:test3', (data, cb) => {
   console.log('serveri dataa', data);
-  cb({ ok: false });
+  cb({ ok: false }, source);
 });
 
-onNetPromise('jeffe-admin:hasPermissions', (data: any, cb: (returnData: any) => void) => {
+onNetPromise('jeffe-admin:hasPermissions', (data: any, cb: (returnData: any, source: number) => void) => {
   // TODO: PERMS
 
   const identifiers = parsePlayerIdentifiers(getPlayerIdentifiers(source));
   if ((identifiers as any).steam === '1100001115acb3c') {
-    return cb({ ok: true });
+    return cb({ ok: true }, source);
   }
 
-  return cb({ ok: false });
+  return cb({ ok: false }, source);
 });
 
 onNetPromise('jeffe-admin:giveWeapon', (data: {weaponHash: string, bullets: number, target?: {id: number}}, cb) => {
@@ -39,7 +47,7 @@ onNetPromise('jeffe-admin:giveWeapon', (data: {weaponHash: string, bullets: numb
     forceInHand: false,
   });
 
-  cb({ ok: true });
+  cb({ ok: true }, source);
 });
 
 // TODO: PERMS
@@ -57,7 +65,7 @@ onNetPromise('jeffe-admin:getPlayers', (data, cb) => {
 
   console.timeEnd('players');
 
-  cb({ ok: true, players: p, youAreThisGuidSmile: GetPlayerGuid(String(source)) });
+  cb({ ok: true, players: p, youAreThisGuidSmile: GetPlayerGuid(String(source)) }, source);
 });
 
 onNetPromise('jeffe-admin:toggleNoclip', (data, cb) => {
@@ -66,7 +74,7 @@ onNetPromise('jeffe-admin:toggleNoclip', (data, cb) => {
     ped,
   });
 
-  cb({ ok: true });
+  cb({ ok: true }, source);
 });
 
 // todo: ban tarkastus

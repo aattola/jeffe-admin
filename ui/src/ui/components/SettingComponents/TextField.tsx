@@ -14,7 +14,6 @@ function TextFieldComponent(
     handleComponentState({ value: e.target.value }, data.id);
   }
 
-  console.log(componentState, 'comp state');
   return (
     <div>
       {data.text && (

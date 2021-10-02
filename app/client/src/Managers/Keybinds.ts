@@ -4,6 +4,8 @@ import { menuOpen, toggleNuiFrame } from '../menuState';
 RegisterNuiCallbackType('bind');
 RegisterNuiCallbackType('bindings');
 
+type TBind = {internalBind: number, event: string, eventData: any}
+
 class KeybindManager {
   protected static instance: KeybindManager;
 
@@ -63,7 +65,7 @@ class KeybindManager {
     },
   ]
 
-  bindmap: {internalBind: number, event: string, eventData: any}[] = []
+  bindmap: TBind[] = []
 
   registerCommands(): void {
     // todo: commands
@@ -100,7 +102,7 @@ class KeybindManager {
   }
 
   handleCommand(command: string) {
-    const [_, number] = command.split('_');
+    const [, number] = command.split('_');
 
     this.bindmap.forEach(async (bind) => {
       if (bind.internalBind !== Number(number)) return;
@@ -108,9 +110,9 @@ class KeybindManager {
     });
   }
 
-  handleBind(
+  async handleBind(
     data: {bindSpot: number, event: string, data: string}, cb: (retData: any) => void,
-  ): void {
+  ): Promise<void> {
     if (!data.event) {
       cb({ ok: false, error: 'Event is not present in request.' });
       return;
@@ -118,16 +120,22 @@ class KeybindManager {
 
     if (data.bindSpot === 0) {
       this.bindmap = this.bindmap.filter((bind) => bind.event !== data.event);
+      await emitNetPromise('jeffe-admin:saveBindings', { data: this.bindmap });
       cb({ ok: true });
       return;
     }
 
-    // TODO: tallenna tää johonkin pätevään
-    this.bindmap.push({
+    const bindCheck = this.bindmap.filter((bind) => bind.internalBind === data.bindSpot);
+    if (bindCheck.length > 0) return;
+
+    const bindData = {
       internalBind: data.bindSpot,
       event: data.event,
       eventData: data.data,
-    });
+    };
+    this.bindmap.push(bindData);
+
+    await emitNetPromise('jeffe-admin:saveBindings', { data: this.bindmap });
 
     cb({ ok: true });
   }
@@ -140,7 +148,17 @@ class KeybindManager {
     cb({ ok: true, bindings: this.bindmap });
   }
 
+  async fetchMappingsFromServer() {
+    const response = <{ok: boolean, configData: TBind[]}> await emitNetPromise('jeffe-admin:getBindings').catch((e) => {
+      // Käytännössä ei keybindejä
+    });
+
+    if (!response?.configData) return;
+    this.bindmap = response.configData;
+  }
+
   constructor() {
+    this.fetchMappingsFromServer();
     this.registerCommands();
     this.registerKeymappings();
     setTimeout(() => {

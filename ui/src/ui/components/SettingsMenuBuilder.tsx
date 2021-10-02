@@ -2,43 +2,44 @@ import React, { Suspense } from 'react';
 import ErrorBoundary from './ErrorBoundary';
 import { ButtonComponent } from './SettingComponents/Settings';
 import { fetchNui } from '../utils/fetchNui';
+import Button from './SettingComponents/Button';
 
-const MenuData = {
-  huutis: true,
-  settings: [
-    {
-      name: 'Send message',
-      components: [
-        {
-          type: 'TextField',
-          default: 'Bruh',
-          text: 'Testia field 1',
-          id: 'text',
-        },
-        {
-          type: 'TextField',
-          default: 'Duh',
-          text: 'Testia field 2',
-          id: 'text2',
-        },
-        {
-          type: 'Button',
-          text: 'Testia',
-          buttonText: 'YEP',
-          id: 'nappi',
-          variant: 'red',
-        },
-        {
-          type: 'Button',
-          text: 'Noclip',
-          buttonText: 'Toggle',
-          id: 'nappula',
-          event: 'toggleNoclip',
-        },
-      ],
-    },
-  ],
-};
+// const MenuData = {
+//   huutis: true,
+//   settings: [
+//     {
+//       name: 'Send message',
+//       components: [
+//         {
+//           type: 'TextField',
+//           default: 'Bruh',
+//           text: 'Testia field 1',
+//           id: 'text',
+//         },
+//         {
+//           type: 'TextField',
+//           default: 'Duh',
+//           text: 'Testia field 2',
+//           id: 'text2',
+//         },
+//         {
+//           type: 'Button',
+//           text: 'Testia',
+//           buttonText: 'YEP',
+//           id: 'nappi',
+//           variant: 'red',
+//         },
+//         {
+//           type: 'Button',
+//           text: 'Noclip',
+//           buttonText: 'Toggle',
+//           id: 'nappula',
+//           event: 'toggleNoclip',
+//         },
+//       ],
+//     },
+//   ],
+// };
 
 interface ComponentState extends ButtonComponent {
   default: string
@@ -88,34 +89,44 @@ class SettingsMenuBuilder extends React.Component<any, MyState> {
     }
   }
 
-  loadComponent(name: string) {
-    return React.lazy(() => import(`./SettingComponents/${name}.tsx`));
+  loadComponent(name: string, Component: any) {
+    console.log('comp type', name);
+    if (name === 'Button') {
+      return (
+        <Button
+          clickHandler={this.handleClick.bind(this)}
+          data={Component}
+          handleComponentState={() => null}
+        />
+      );
+    }
+
+    console.log(`Unknown component type: ${name}`);
+    return null;
+    // return React.lazy(() => import(`./SettingComponents/${name}.tsx`));
   }
 
   render() {
     const { componentStates } = this.state;
+    const { MenuData } = this.props;
+    if (!MenuData) return <div />;
 
     return (
       <ErrorBoundary>
         <div>
-          {MenuData.settings.map((setting) => (
+          {MenuData.settings.map((setting: any) => (
             <div key={setting.name}>
               <span>{setting.name}</span>
-              {(setting.components || []).map((Component, i: number) => {
-                const RenderComponent = this.loadComponent(Component.type);
+              {(setting.components || []).map((Component: any, i: number) => {
+                const RenderComponent = this.loadComponent(Component.type, Component);
 
                 return (
                   <span key={i}>
                     <span>{Component.type}</span>
                     <span>{Component.default}</span>
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <RenderComponent
-                        componentState={componentStates && (componentStates as any)[Component.id]}
-                        handleComponentState={this.handleComponentState.bind(this)}
-                        clickHandler={this.handleClick.bind(this)}
-                        data={Component}
-                      />
-                    </Suspense>
+                    {/* <Suspense fallback={<div>Loading...</div>}> */}
+                    {RenderComponent}
+                    {/* </Suspense> */}
                   </span>
                 );
               })}

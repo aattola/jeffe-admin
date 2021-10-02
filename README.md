@@ -10,12 +10,16 @@ TODO
 
 * Changing weather / time
 * Spawning cars
-* Modifying car mods
-* Noclip
-* Teleporting (To player / player to self)
-* Binding commands
+* Noclip 
+* Teleporting (To player / waypoint and player to player)
+* Kicks
+* Weapon spawning
+* Binding actions to keyboard  **BUG!! cannot rebind if currently bound**
+* Saving menu state
 * Favorites
-* Bans? TODO
-* Kicks?
-* Weapon spawning and modifying
-* Simple permission system
+
+
+* Bans TODO
+* Modifying car mods TODO
+* Weapon modifying TODO
+* Simple permission system for resource TODO

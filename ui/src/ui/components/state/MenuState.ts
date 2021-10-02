@@ -26,6 +26,8 @@ class MenuStateStore {
 
   binds = []
 
+  favorites = []
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -35,6 +37,13 @@ class MenuStateStore {
     if (err) return;
 
     this.binds = data.bindings;
+  }
+
+  async fetchFavorites() {
+    const [data, err] = await asyncWrapper(fetchNui('favorites'));
+    if (err) return;
+
+    this.favorites = data.favorites.map((fav: any) => fav.id);
   }
 
   async fetchPlayers() {

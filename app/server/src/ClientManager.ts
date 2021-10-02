@@ -16,9 +16,11 @@ class ServerClientManager {
     onNetPromise('jeffe-admin:teleportPlayer', this.handleTeleport);
   }
 
-  async handleTeleport(data: {target: any}, cb: (callbackData: any) => void) {
+  async handleTeleport(data: {target: any}, cb: (callbackData: any, source: number) => void) {
     // todo: perms
     const ped = data.target ? data.target.id : source;
+
+    console.log('pedi vastaus', ped, data, source);
 
     emitNet('jeffe-admin:teleportPlayer:client', ped, {
       ped,
@@ -27,16 +29,16 @@ class ServerClientManager {
       },
     });
 
-    cb({ ok: true });
+    cb({ ok: true }, source);
   }
 
-  async handleKick(data: {target: any, reason: string}, cb: (callbackData: any) => void) {
+  async handleKick(data: {target: any, reason: string}, cb: (callbackData: any, source: number) => void) {
     const { reason, target } = data;
     // todo: perms
     const player = target.id;
     DropPlayer(player, reason);
 
-    cb({ ok: true });
+    cb({ ok: true }, source);
   }
 }
 

@@ -1,7 +1,6 @@
 const path = require('path');
 const { ESLINT_MODES } = require('@craco/craco');
 const RemovePlugin = require('remove-files-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 
 const buildPath = path.resolve(__dirname, 'dist');
 
@@ -33,6 +32,11 @@ module.exports = {
           },
         }),
       ];
+
+      // if (webpackConfig.mode === 'development' && process.env.IN_GAME_DEV) {
+      //   console.log(webpackConfig.entry, 'webpack entry');
+      //   webpackConfig.entry = ['react-devtools', webpackConfig.entry];
+      // }
 
       return webpackConfig;
     },

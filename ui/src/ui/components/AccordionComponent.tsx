@@ -14,7 +14,8 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Star';
+import FavoriteBorderIcon from '@mui/icons-material/StarBorder';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 
 import React, { useEffect, useState } from 'react';
@@ -31,20 +32,89 @@ import KickSettings from './Settings/Kick';
 import menuState from './state/MenuState';
 import FixComponent from './Settings/Fix';
 import Weapon from './Settings/Weapon';
+import SettingsMenuBuilder from './SettingsMenuBuilder';
+
+const MenuData = {
+  huutis: true,
+  settings: [
+    {
+      name: 'Send message',
+      components: [
+        {
+          type: 'TextField',
+          default: 'Bruh',
+          text: 'Testia field 1',
+          id: 'text',
+        },
+        {
+          type: 'TextField',
+          default: 'Duh',
+          text: 'Testia field 2',
+          id: 'text2',
+        },
+        {
+          type: 'Button',
+          text: 'Testia',
+          buttonText: 'YEP',
+          id: 'nappi',
+          variant: 'red',
+        },
+        {
+          type: 'Button',
+          text: 'Noclip',
+          buttonText: 'Toggle',
+          id: 'nappula',
+          event: 'toggleNoclip',
+        },
+      ],
+    },
+  ],
+};
 
 const AccordionOptions = [
   {
     title: 'Spawn weapons',
     desc: 'Weapons',
-    // event: {
-    //   event: 'jeffe-admin:toggleNoclip',
-    //   data: {},
-    // },
+    id: 100,
     components: [Weapon],
+  },
+  {
+    title: 'DEV TESTI nappula',
+    desc: 'nappi',
+    id: 140,
+    event: {
+      event: 'jeffe-admin:toggleNoclip',
+      data: {},
+    },
+    props: {
+      settings: [
+        {
+          name: 'Test nappi ',
+          components: [
+            {
+              type: 'Button',
+              text: 'Noclip',
+              buttonText: 'Toggle',
+              id: 'nappula',
+              event: 'toggleNoclip',
+            },
+          ],
+        },
+      ],
+    },
+    components: [SettingsMenuBuilder],
+  },
+  {
+    title: 'DEV TEST',
+    desc: 'doge',
+    id: 150,
+    props: MenuData,
+    components: [SettingsMenuBuilder],
   },
   {
     title: 'Noclip',
     desc: 'Noclip around the town',
+    id: 200,
     event: {
       event: 'jeffe-admin:toggleNoclip',
       data: {},
@@ -54,21 +124,25 @@ const AccordionOptions = [
   {
     title: 'Teleport',
     desc: 'tp',
+    id: 300,
     components: [TeleportSettings],
   },
   {
     title: 'Kick player',
     desc: 'kick',
+    id: 400,
     components: [KickSettings],
   },
   {
     title: 'Spawn car',
     desc: 'CAR',
+    id: 500,
     components: [Car],
   },
   {
     title: 'Repair car',
     desc: 'CAR',
+    id: 600,
     event: {
       event: 'jeffe-admin:car',
       data: { type: 'fix' },
@@ -78,11 +152,13 @@ const AccordionOptions = [
   {
     title: 'Weather',
     desc: 'emt 3',
+    id: 700,
     components: [Weather],
   },
   {
     title: 'Time',
     desc: 'time',
+    id: 800,
     components: [Time],
   },
 ];
@@ -114,12 +190,27 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
     setAnchorEl(null);
   };
 
-  const handleItemClick = (event: React.MouseEvent<HTMLElement>) => {
+  const setFavorite = async () => {
+    const [, errori] = await asyncWrapper(fetchNui('favorite', { accordion: { id: accordion.id } }));
+    if (errori) {
+      const { error: err } = errori;
+      setError(err);
+      return;
+    }
+
+    await menuState.fetchFavorites();
+  };
+
+  const handleItemClick = async (event: React.MouseEvent<HTMLElement>) => {
     handleClose();
     const text = event.currentTarget.innerText;
     if (text === 'Bind') {
       setBindMode(true);
       setAccordionOpen(true);
+    }
+
+    if (text === 'Favorite') {
+      setFavorite();
     }
   };
 
@@ -177,10 +268,19 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
         expandIcon={<ExpandMoreIcon sx={{ pointerEvents: 'none' }} />}
         id="paneeli-emt"
       >
-        <Typography sx={{ width: '33%', flexShrink: 0, pointerEvents: 'none' }}>
-          {accordion.title}
-        </Typography>
+        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
+          <ListItemIcon onClick={setFavorite}>
+            {menuState.favorites?.indexOf((accordion.id as never)) >= 0 ? (
+              <FavoriteIcon style={{ minWidth: '40px' }} fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon style={{ minWidth: '40px' }} fontSize="small" />
+            )}
+          </ListItemIcon>
+          <Typography sx={{ flexShrink: 0, pointerEvents: 'none' }}>
+            {accordion.title}
+          </Typography>
 
+        </div>
         {binding && (
           <p
             style={{ margin: 0 }}
@@ -236,7 +336,11 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
         >
           <MenuItem onClick={handleItemClick}>
             <ListItemIcon>
-              <FavoriteBorderIcon fontSize="small" />
+              {menuState.favorites?.indexOf((accordion.id as never)) >= 0 ? (
+                <FavoriteIcon fontSize="small" />
+              ) : (
+                <FavoriteBorderIcon fontSize="small" />
+              )}
             </ListItemIcon>
             <ListItemText>Favorite</ListItemText>
           </MenuItem>
@@ -293,7 +397,7 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
           </>
         ) : (accordion.components || []).map((Component: any, i: number) => (
           <div style={{ marginTop: '7px' }} key={i}>
-            <Component />
+            <Component MenuData={accordion.props ?? null} />
           </div>
         ))}
 
@@ -302,17 +406,25 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
   );
 }
 
+const AccordObserved = observer(Accord);
+
 function AccordionComponent() {
   useEffect(() => {
     menuState.fetchBinds();
+    menuState.fetchFavorites();
   }, []);
 
   const binds = menuState.binds.map((a: any) => a.event);
+  const AccordionOptionsButBetterArray = AccordionOptions.map((option) => ({
+    ...option,
+    sortId: menuState.favorites?.indexOf((option.id as never)) >= 0 ? Number(String(option.id).slice(0, 2)) : option.id,
+  }));
+  const AccordionOptionsSorted = AccordionOptionsButBetterArray.sort((a, b) => a.sortId - b.sortId);
 
   return (
     <>
-      {AccordionOptions.map((accordion) => (
-        <Accord binding={binds.indexOf(accordion.event?.event) > -1 ? menuState.binds[binds.indexOf(accordion.event?.event)] : null} key={accordion.title} accordion={accordion} />
+      {AccordionOptionsSorted.map((accordion) => (
+        <AccordObserved binding={binds.indexOf(accordion.event?.event) > -1 ? menuState.binds[binds.indexOf(accordion.event?.event)] : null} key={accordion.title} accordion={accordion} />
       ))}
     </>
   );

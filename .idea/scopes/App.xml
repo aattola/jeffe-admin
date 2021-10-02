@@ -1,3 +1,3 @@
 <component name="DependencyValidationManager">
-  <scope name="App" pattern="file[jeffe-admin]:app//*" />
+  <scope name="App" pattern="file[jeffe-admin]:app//*||file[jeffe-admin]:shared//*" />
 </component>

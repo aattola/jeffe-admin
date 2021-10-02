@@ -15,4 +15,4 @@ ui_page 'ui/dist/index.html'
 
 client_script 'app/build/client/*.client.js'
 
-server_script 'app/build/client/*.server.js'
+server_script 'app/build/server/*.server.js'

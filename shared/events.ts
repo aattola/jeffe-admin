@@ -38,7 +38,7 @@ function emitNetPromise(resource: string, data?: any, timeout = 2500) {
 }
 
 function onNetPromise(
-  eventName: string, callback: (data: any, cb: (returnData: any) => void) => void,
+  eventName: string, callback: (data: any, cb: (returnData: any, source: number) => void, source: number) => void,
 ) {
   const [res, event] = eventName.split(':');
 
@@ -46,9 +46,9 @@ function onNetPromise(
   const correctReturnEventName = `${res}:INTERNAL_CLIENT_${event}`;
 
   onNet(correctEventName, (returnData: any[]) => {
-    callback(returnData, (data: any) => {
+    callback(returnData, (data: any, source?: number) => {
       emitNet(correctReturnEventName, source, data);
-    });
+    }, source);
   });
 }
 

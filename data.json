@@ -1,0 +1,36 @@
+{
+  "personalOptions": {
+    "thisisidofplayer": {
+      "i": true,
+      "orava": "brurava"
+    },
+    "1100001115acb3c": {
+      "favorites": [
+        {
+          "id": 100
+        },
+        {
+          "id": 500
+        }
+      ],
+      "bindings": [
+        {
+          "internalBind": 5,
+          "event": "jeffe-admin:toggleNoclip",
+          "eventData": {}
+        },
+        {
+          "internalBind": 6,
+          "event": "jeffe-admin:toggleNoclip",
+          "eventData": {}
+        },
+        {
+          "internalBind": 3,
+          "event": "jeffe-admin:toggleNoclip",
+          "eventData": {}
+        }
+      ]
+    }
+  },
+  "kiss": "brurava"
+}

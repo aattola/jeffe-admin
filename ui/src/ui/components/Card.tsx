@@ -14,6 +14,7 @@ import ErrorBoundary from './ErrorBoundary';
 import 'react-color-palette/lib/css/styles.css';
 import PlayerPicker from './PlayerPicker';
 import AccordionComponent from './AccordionComponent';
+import SettingsMenuBuilder from './SettingsMenuBuilder';
 
 const Topbar = styled.div`
   //border: 1px solid rgb(251 251 251 / 15%);
@@ -82,6 +83,8 @@ function CardWrapper() {
           <Divider />
           <SettingsContainer>
             <ErrorBoundary>
+
+              <SettingsMenuBuilder />
 
               <AccordionComponent />
 

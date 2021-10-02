@@ -12,6 +12,7 @@ import WeaponManager from './Managers/Weapon';
 import NoclipManager from './Managers/Noclip';
 import KeybindManager from './Managers/Keybinds';
 import ClientManager from './Managers/Client';
+import FavoritesManager from './Managers/Favorites';
 
 VehicleManager.getInstance();
 MenuManager.getInstance();
@@ -19,6 +20,7 @@ WeaponManager.getInstance();
 NoclipManager.getInstance();
 KeybindManager.getInstance();
 ClientManager.getInstance();
+FavoritesManager.getInstance();
 
 const Delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
