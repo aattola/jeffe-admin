@@ -5,13 +5,16 @@
     "build": "webpack --mode development --color --progress",
     "watch": "webpack --mode development --watch"
   },
+  "peerDependencies": {
+    "webpack-cli": "*"
+  },
   "dependencies": {
-    "fivem-js": "^1.5.2",
-    "@jeffe/shared": "1.0.0"
+    "@jeffe/shared": "1.0.0",
+    "fivem-js": "^1.5.2"
   },
   "devDependencies": {
-    "@citizenfx/server": "^2.0.4517-1",
     "@citizenfx/client": "^2.0.4517-1",
+    "@citizenfx/server": "^2.0.4517-1",
     "@types/node": "^16.9.1",
     "@typescript-eslint/parser": "^4.31.1",
     "eslint": "^7.32.0",

@@ -1,6 +1,7 @@
 const path = require('path');
 const { ESLINT_MODES } = require('@craco/craco');
 const RemovePlugin = require('remove-files-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const buildPath = path.resolve(__dirname, 'dist');
 

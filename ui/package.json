@@ -1,8 +1,10 @@
 {
   "name": "@jeffe/ui",
   "version": "0.1.0",
-  "private": true,
   "homepage": "ui/dist",
+  "peerDependencies": {
+    "webpack-cli": "*"
+  },
   "dependencies": {
     "@craco/craco": "^6.3.0",
     "@emotion/react": "^11.4.1",
@@ -21,6 +23,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/underscore": "^1.11.3",
+    "copy-webpack-plugin": "^9.0.1",
     "date-fns": "^2.23.0",
     "framer-motion": "^4.1.17",
     "mobx": "^6.3.3",
