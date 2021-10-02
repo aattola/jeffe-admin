@@ -11,10 +11,8 @@ files {
   'ui/dist/**/**/*',
 }
 
-
 ui_page 'ui/dist/index.html'
 
+client_script 'app/build/client/*.client.js'
 
-client_script 'client/dist/client/*.client.js'
-
-server_script 'server/dist/server/*.server.js'
+server_script 'app/build/client/*.server.js'

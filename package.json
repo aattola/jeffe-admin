@@ -6,7 +6,7 @@
     "app"
   ],
   "scripts": {
-    "build": "cd app && yarn build && cd ui && yarn build",
+    "build": "cd app && yarn build && cd .. && cd ui && yarn build",
     "watch:ui": "cd ui && yarn watch:game",
     "watch:app": "cd app && yarn watch"
   }
