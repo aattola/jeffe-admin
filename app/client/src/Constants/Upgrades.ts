@@ -3,7 +3,7 @@ const Upgrades = {
     type: 13,
     types: {
       'Stock Suspension': { index: -1 },
-      'Lowered Suspension': { index: false },
+      'Lowered Suspension': { index: 0 },
       'Street Suspension': { index: 1 },
       'Sport Suspension': { index: 2 },
       'Competition Suspension': { index: 3 },
@@ -13,7 +13,7 @@ const Upgrades = {
     type: 16,
     types: {
       None: { index: -1 },
-      'Armor Upgrade 20%': { index: false },
+      'Armor Upgrade 20%': { index: 0 },
       'Armor Upgrade 40%': { index: 1 },
       'Armor Upgrade 60%': { index: 2 },
       'Armor Upgrade 80%': { index: 3 },
@@ -24,7 +24,7 @@ const Upgrades = {
     type: 13,
     types: {
       'Stock Transmission': { index: -1 },
-      'Street Transmission': { index: false },
+      'Street Transmission': { index: 0 },
       'Sports Transmission': { index: 1 },
       'Race Transmission': { index: 2 },
     },
@@ -63,7 +63,7 @@ const Upgrades = {
     type: 11,
     types: {
       'EMS Upgrade, Level 1': { index: -1 },
-      'EMS Upgrade, Level 2': { index: false },
+      'EMS Upgrade, Level 2': { index: 0 },
       'EMS Upgrade, Level 3': { index: 1 },
       'EMS Upgrade, Level 4': { index: 2 },
     },
@@ -72,7 +72,7 @@ const Upgrades = {
     type: 12,
     types: {
       'Stock Brakes': { index: -1 },
-      'Street Brakes': { index: false },
+      'Street Brakes': { index: 0 },
       'Sport Brakes': { index: 1 },
       'Race Brakes': { index: 2 },
     },
@@ -81,7 +81,7 @@ const Upgrades = {
     type: 14,
     types: {
       'Stock Horn': { index: -1 },
-      'Truck Horn': { index: false },
+      'Truck Horn': { index: 0 },
       'Police Horn': { index: 1 },
       'Clown Horn': { index: 2 },
       'Musical Horn 1': { index: 3 },
@@ -124,7 +124,7 @@ const Upgrades = {
       type: 3,
       types: {
         Stock: { index: -1 },
-        Vip: { index: false },
+        Vip: { index: 0 },
         Benefactor: { index: 1 },
         Cosmo: { index: 2 },
         Bippu: { index: 3 },
@@ -149,7 +149,7 @@ const Upgrades = {
       type: false,
       types: {
         Stock: { index: -1 },
-        Inferno: { index: false },
+        Inferno: { index: 0 },
         Deepfive: { index: 1 },
         Lozspeed: { index: 2 },
         Diamondcut: { index: 3 },
@@ -179,7 +179,7 @@ const Upgrades = {
       type: 4,
       types: {
         Stock: { index: -1 },
-        Raider: { index: false },
+        Raider: { index: 0 },
         Mudslinger: { index: 1 },
         Nevis: { index: 2 },
         Cairngorm: { index: 3 },
@@ -195,7 +195,7 @@ const Upgrades = {
       type: 5,
       types: {
         Stock: { index: -1 },
-        Cosmo: { index: false },
+        Cosmo: { index: 0 },
         Supermesh: { index: 1 },
         Outsider: { index: 2 },
         Rollas: { index: 3 },
@@ -225,7 +225,7 @@ const Upgrades = {
       type: 7,
       types: {
         Stock: { index: -1 },
-        Shadow: { index: false },
+        Shadow: { index: 0 },
         Hyper: { index: 1 },
         Blade: { index: 2 },
         Diamond: { index: 3 },
@@ -251,7 +251,7 @@ const Upgrades = {
       type: 2,
       types: {
         Stock: { index: -1 },
-        Flare: { index: false },
+        Flare: { index: 0 },
         Wired: { index: 1 },
         Triplegolds: { index: 2 },
         Bigworm: { index: 3 },
@@ -272,7 +272,7 @@ const Upgrades = {
       type: 1,
       types: {
         Stock: { index: -1 },
-        Classicfive: { index: false },
+        Classicfive: { index: 0 },
         Dukes: { index: 1 },
         Musclefreak: { index: 2 },
         Kracka: { index: 3 },

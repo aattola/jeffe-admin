@@ -271,9 +271,9 @@ function Accord(props: { accordion: typeof AccordionOptions[0]; binding: any}) {
         <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
           <ListItemIcon onClick={setFavorite}>
             {menuState.favorites?.indexOf((accordion.id as never)) >= 0 ? (
-              <FavoriteIcon style={{ minWidth: '40px' }} fontSize="small" />
+              <FavoriteIcon style={{ minWidth: '40px' }} fontSize="medium" />
             ) : (
-              <FavoriteBorderIcon style={{ minWidth: '40px' }} fontSize="small" />
+              <FavoriteBorderIcon style={{ minWidth: '40px' }} fontSize="medium" />
             )}
           </ListItemIcon>
           <Typography sx={{ flexShrink: 0, pointerEvents: 'none' }}>

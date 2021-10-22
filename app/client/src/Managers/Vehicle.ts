@@ -46,9 +46,11 @@ class VehicleManager {
     const mods = veh.Mods.getAllMods();
 
     veh.Mods.getMod(VehicleModType.Horns).Index = 9;
+    const num = GetNumVehicleMods(veh.Handle, 1);
+    console.log('NumVehMods', num, 'currveh', veh.Handle);
 
-    SetVehicleMod(veh.Handle, 14, 1, false);
-    console.log(veh.Mods.getMod(VehicleModType.Horns));
+    SetVehicleMod(veh.Handle, 1, 2, false);
+    console.log(veh);
 
     return cb({ ok: true, mods });
   }
